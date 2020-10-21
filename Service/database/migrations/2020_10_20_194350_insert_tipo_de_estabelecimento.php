@@ -1,5 +1,8 @@
 <?php
 
+use App\Providers\TipoDeEstabelecimentoService;
+use App\Models\TipoDeEstabelecimentoDAO;
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 

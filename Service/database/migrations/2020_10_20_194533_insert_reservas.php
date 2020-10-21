@@ -1,4 +1,11 @@
 <?php
+use App\Providers\EstabelecimentoService;
+use App\Providers\QuartoService;
+use App\Models\Usuario;
+use App\Providers\UsuarioService;
+use App\Models\Reserva;
+use App\Providers\ReservaService;
+use App\Providers\SituacaoDePagamentoService;
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;

@@ -1,5 +1,11 @@
 <?php
 
+use App\Models\Quarto;
+use App\Providers\EstabelecimentoService;
+use App\Providers\QuartoService;
+use App\Providers\TipoDeQuartoService;
+use App\Providers\TipoDeEstabelecimentoService;
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 

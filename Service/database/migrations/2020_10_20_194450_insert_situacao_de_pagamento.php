@@ -1,5 +1,8 @@
 <?php
 
+use App\Providers\SituacaoDePagamentoService;
+use App\Models\SituacaoDePagamentoDAO;
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 

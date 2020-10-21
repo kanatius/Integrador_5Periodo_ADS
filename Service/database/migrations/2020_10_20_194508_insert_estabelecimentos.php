@@ -1,5 +1,11 @@
 <?php
 
+use App\Models\Estabelecimento;
+use App\Providers\EstabelecimentoService;
+use App\Models\Endereco;
+use App\Providers\TipoDeEstabelecimentoService;
+
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 

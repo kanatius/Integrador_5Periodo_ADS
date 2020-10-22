@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Providers\ReservaService;
-
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,7 +11,6 @@ class Usuario extends Model
     private $nome;
     private $email;
     private $reservas;
-    private $token;
 
     function __construct($id, $nome, $email)
     {
@@ -36,9 +33,6 @@ class Usuario extends Model
     public function getReservas(){
         return $this->reservas;
     }
-    public function getToken(){
-        return $this->token;
-    }
     public function setNome($nome)
     {
         $this->nome = $nome;
@@ -46,9 +40,6 @@ class Usuario extends Model
     public function setEmail($email)
     {
         $this->email = $email;
-    }
-    public function setToken($token){
-        $this->token = $token;
     }
     public function addReserva(Reserva $reserva){
         $tamanho = count($this->reservas);
@@ -62,10 +53,4 @@ class Usuario extends Model
     public function setReservas($reservas){
         $this->reservas = $reservas;
     }
-    // public function payReserva(Reserva $reserva){
-    //     return ReservaService::payReserva($this, $reserva);
-    // }
-    // public function cancelReserva(Reserva $reserva){
-    //     return ReservaService::cancelReserva($this, $reserva);
-    // }
 }

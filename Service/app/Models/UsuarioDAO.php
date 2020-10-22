@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 class UsuarioDAO extends Model
 {
@@ -32,17 +33,20 @@ class UsuarioDAO extends Model
     }
     public static function getByEmail($email)
     {
-        $row =  DB::table("usuario")->select("id", "nome", "email")->whereRaw("lower(email) = (?)", strtolower($email))->first();
-        return UsuarioDAO::convertRowToObj($row);
+        return DB::table("usuario")->select("id", "nome", "token", "email")->whereRaw("lower(email) = (?)", strtolower($email))->first();
     }
     //-------------- GET --------------//
 
     //-------------- INSERT --------------//
     public static function insert(Usuario $usuario)
     {
+        //gera um token aleatorio para o usuario
+        $usuario->setToken(Str::random(50)); //esse token deveria vir do serviço de pagamento
+
         $dados = [
             "nome" => $usuario->getNome(), 
-            "email" => $usuario->getEmail(), 
+            "email" => $usuario->getEmail(),
+            "token" => $usuario->getToken(),
             "created_at" => Carbon::now(), 
             "updated_at" => null
         ];
@@ -89,8 +93,11 @@ class UsuarioDAO extends Model
 
     //-------------- ADAPTER --------------//
     private static function convertRowToObj($row){
-        if(!is_null($row))
-            return new Usuario($row->id, $row->nome, $row->email);
+        if(!is_null($row)){
+            $usuario = new Usuario($row->id, $row->nome, $row->email);
+            $usuario->setToken($row->token);
+            return $usuario;
+        }
         return null;
     }
     private static function convertRowsToVectorOfObj($rows){

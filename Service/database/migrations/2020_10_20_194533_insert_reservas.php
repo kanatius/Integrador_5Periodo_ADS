@@ -40,6 +40,6 @@ class InsertReservas extends Migration
     public function down()
     {    
         DB::table("reserva")->where("id", ">", 0)->delete();
-        DB::table("usuario")->where("id", 200)->delete();
+        DB::table("usuario")->where("id", ">", 0)->delete();
     }
 }

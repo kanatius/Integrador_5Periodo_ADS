@@ -8,6 +8,8 @@ use App\Models\Reserva;
 
 use Illuminate\Support\ServiceProvider;
 
+use function PHPSTORM_META\type;
+
 class UsuarioService extends ServiceProvider
 {
     /**
@@ -30,19 +32,6 @@ class UsuarioService extends ServiceProvider
         //
     }
 
-    public static function autenticar($email){
-        $usuario = UsuarioService::getByEmail($email); //pega os dados da tabela
-    
-        if(is_null($usuario)) //verifica se encontrou algum usuario cadastrado
-            return false;
-
-        session_start();
-        $usuarioObjSession = ["id" => $usuario->getId(), "nome" => $usuario->getNome(), "email" => $usuario->getEmail()];
-        $_SESSION["usuarioLogado"] = json_encode($usuarioObjSession);
-        session_commit();
-        return true;
-    }
-
     public static function cadastrarUsuario(Usuario $usuario){
 
         //envia os dados para o servico de pagamento
@@ -56,9 +45,12 @@ class UsuarioService extends ServiceProvider
         return $id;
     }
     public static function getByEmail($email){
-        if($email != "")
-            return UsuarioDAO::getByEmail($email);
-        return null;
+        if($email != ""){
+            $usuario = UsuarioDAO::getByEmail($email);
+            if(!is_null($usuario))
+                return json_encode(get_object_vars($usuario));
+        }
+        return json_encode(null);
     }
     public static function getReservas(Usuario $usuario){
         $reservas = ReservaService::getReservasByUsuario($usuario); 
@@ -76,17 +68,5 @@ class UsuarioService extends ServiceProvider
     public static function getUsuarioByReserva(Reserva $reserva){
         $id = ReservaService::getIdUsuario($reserva);
         return UsuarioDAO::findById($id);
-    }
-
-    public static function getUsuarioLogado(){
-        session_start();
-        $usuario = null;
-
-        if(isset($_SESSION["usuarioLogado"])){
-            $usuario = json_decode($_SESSION["usuarioLogado"]);
-            $usuario = new Usuario($usuario->id, $usuario->nome, $usuario->email);
-        }
-        session_commit();
-        return $usuario;
     }
 }

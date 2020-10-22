@@ -65,14 +65,12 @@ class ReservaService extends ServiceProvider
     {
         return ReservaDAO::findById($id);
     }
-    public static function pagarReserva(Reserva $reserva)
+    public static function pagarReserva(Usuario $usuario, Reserva $reserva)
     {
 
         if (SituacaoDePagamentoService::getSituacaoByReserva($reserva)->getId() == SituacaoDePagamentoService::getSituacaoPagamentoPago()->getId()) {
             return false;
         }
-
-        $usuario = UsuarioService::getUsuarioLogado();
 
         //se o usuario não for dono da reserva
         if ($usuario->getId() != ReservaDAO::getIdUsuario($reserva)) {
@@ -90,14 +88,12 @@ class ReservaService extends ServiceProvider
         return false;
     }
 
-    public static function cancelarReserva(Reserva $reserva)
+    public static function cancelarReserva(Usuario $usuario, Reserva $reserva)
     {
 
         if (SituacaoDePagamentoService::getSituacaoByReserva($reserva)->getId() == SituacaoDePagamentoService::getSituacaoPagamentoCancelado()->getId()) {
             return false;
         }
-
-        $usuario = UsuarioService::getUsuarioLogado();
 
         //se o usuario não for dono da reserva
         if ($usuario->getId() != ReservaDAO::getIdUsuario($reserva)) {

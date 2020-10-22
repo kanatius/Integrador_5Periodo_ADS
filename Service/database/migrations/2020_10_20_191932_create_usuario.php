@@ -17,6 +17,7 @@ class CreateUsuario extends Migration
             $table->id();
             $table->string("nome", 100);
             $table->string("email", 255)->unique();
+            $table->string("token", 50);
             $table->timestamps();
         });
     }

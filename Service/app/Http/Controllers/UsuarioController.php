@@ -10,7 +10,7 @@ class UsuarioController extends Controller
     //
 
 
-    public function getUsuario(Request $request){
+    public function getUser(Request $request){
         $params = $request->input();
 
         if(!(isset($params['email']) && isset($params['senha']))){

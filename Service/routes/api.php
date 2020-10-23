@@ -1,10 +1,9 @@
 <?php
 
-
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\ReservaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,4 +21,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post("/login", [UsuarioController::class, 'getUsuario']);
+Route::post("/login", [UsuarioController::class, 'getUser']);
+
+Route::get("/reservas", [ReservaController::class, 'getUserReservations']);
+
+// Route::get("/reservas", function(){
+//     return "1123";
+// });
+

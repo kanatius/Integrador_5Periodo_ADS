@@ -11,13 +11,11 @@ class TipoDeEstabelecimentoDAO extends Model
 {
     //-------------- GET --------------//
     public static function findById($id){ 
-        $row = DB::table("tipo_de_estabelecimento")->where("id", $id)->first();
-        return TipoDeEstabelecimentoDAO::convertRowToObj($row);
+        return DB::table("tipo_de_estabelecimento")->select("id", "nome")->where("id", $id)->first();
     }
 
     public static function getAll(){
-        $rows = DB::table("tipo_de_estabelecimento")->get();
-        return TipoDeEstabelecimentoDAO::convertRowsToVectorOfObj($rows);
+        return  DB::table("tipo_de_estabelecimento")->get();
     }
     //-------------- GET --------------//
 
@@ -61,17 +59,17 @@ class TipoDeEstabelecimentoDAO extends Model
     //-------------- UPDATE --------------//
 
      //-------------- ADAPTER --------------//
-     private static function convertRowToObj($row){
-        if(!is_null($row))
-            return new TipoDeEstabelecimento($row->id, $row->nome);
-        return null;
-    }
-    private static function convertRowsToVectorOfObj($rows){
-        $tipos = [];
-        foreach($rows as $row){
-            $tipos[count($tipos)] = TipoDeEstabelecimentoDAO::convertRowToObj($row);
-        }
-        return $tipos;
-    }
+    //  private static function convertRowToObj($row){
+    //     if(!is_null($row))
+    //         return new TipoDeEstabelecimento($row->id, $row->nome);
+    //     return null;
+    // }
+    // private static function convertRowsToVectorOfObj($rows){
+    //     $tipos = [];
+    //     foreach($rows as $row){
+    //         $tipos[count($tipos)] = TipoDeEstabelecimentoDAO::convertRowToObj($row);
+    //     }
+    //     return $tipos;
+    // }
     //-------------- ADAPTER --------------//
 }

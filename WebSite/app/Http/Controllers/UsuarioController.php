@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Providers\LoginService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -42,11 +43,16 @@ class UsuarioController extends Controller
         return redirect("/?mensagem=" . $mensagem);
     }
 
-    public function deslogar(){
-        session_start();
-        unset($_SESSION["usuarioLogado"]);
-        session_commit();
-        return redirect("/");
+    public function acessarHome()
+    {
+        //verifica se o usuário está logado
+        if (!LoginService::usuariosIsConnected()) {
+            return redirect("/");
+        }
+        $usuario = LoginService::getUsuarioLogado();
+        $usuario["token"] = ""; //certificando que o token não vai passar para a página
+
+        return view("paginas/home", compact('usuario'));
     }
 
     // public function cadastrarUsuario(){

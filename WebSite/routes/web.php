@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Providers\LoginService;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\ReservaController;
+use Illuminate\Support\Facades\Log;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,15 +38,19 @@ Route::get("/usuario/signInPage", function(){
 
 Route::post("/logar", [UsuarioController::class, "logar"]);
 
-Route::get("/deslogar", [UsuarioController::class, "deslogar"]);
+Route::get("/deslogar", function(){
+    LoginService::deslogar();
+    return redirect("/");
+});
 
-Route::get("/home", ['uses' => 'EstabelecimentoController@acessarHome']);
+Route::get("/home", [UsuarioController::class, "acessarHome"]);
+
+Route::get("/minhasReservas", [ReservaController::class, "acessarMinhasReservas"]);
+
 
 // Route::get("/estabelecimentos", ['uses' => 'EstabelecimentoController@acessarListarEstabelecimentos']);
 
 // Route::get("/buscarEstabelecimentos", ['uses' => 'EstabelecimentoController@buscarEstabelecimentos']);
-
-// Route::get("/minhasReservas", ['uses' => 'ReservaController@acessarMinhasReservas']);
 
 // Route::get("/visualizarQuartos", ['uses' => 'EstabelecimentoController@acessarVisualizarQuartos']);
 

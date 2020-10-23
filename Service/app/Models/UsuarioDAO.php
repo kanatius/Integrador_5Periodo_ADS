@@ -13,14 +13,12 @@ class UsuarioDAO extends Model
     //-------------- GET --------------//
     public static function findById($id)
     {
-        $row = DB::table("usuario")->where("id", $id)->first();
-        return UsuarioDAO::convertRowToObj($row);
+        return DB::table("usuario")->select("id", "nome", "token", "email")->where("id", $id)->first();
     }
 
     public static function getAll()
     {
-        $rows = DB::table("usuario")->get();
-        return UsuarioDAO::convertRowsToVectorOfObj($rows);
+        return DB::table("usuario")->get();
     }
 
     public static function getByNameLikesTo($nome){
@@ -92,20 +90,20 @@ class UsuarioDAO extends Model
 
 
     //-------------- ADAPTER --------------//
-    private static function convertRowToObj($row){
-        if(!is_null($row)){
-            $usuario = new Usuario($row->id, $row->nome, $row->email);
-            $usuario->setToken($row->token);
-            return $usuario;
-        }
-        return null;
-    }
-    private static function convertRowsToVectorOfObj($rows){
-        $usuarios = [];
-        foreach($rows as $row){
-            $usuarios[count($usuarios)] = UsuarioDAO::convertRowToObj($row);
-        }
-        return $usuarios;
-    }
+    // private static function convertRowToObj($row){
+    //     if(!is_null($row)){
+    //         $usuario = new Usuario($row->id, $row->nome, $row->email);
+    //         $usuario->setToken($row->token);
+    //         return $usuario;
+    //     }
+    //     return null;
+    // }
+    // private static function convertRowsToVectorOfObj($rows){
+    //     $usuarios = [];
+    //     foreach($rows as $row){
+    //         $usuarios[count($usuarios)] = UsuarioDAO::convertRowToObj($row);
+    //     }
+    //     return $usuarios;
+    // }
     //-------------- ADAPTER --------------//
 }

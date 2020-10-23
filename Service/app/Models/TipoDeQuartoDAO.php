@@ -11,12 +11,10 @@ class TipoDeQuartoDAO extends Model
 {
     //-------------- GET --------------//
     public static function findById($id){
-        $row = DB::table("tipo_de_quarto")->where("id", $id)->first();
-        return TipoDeQuartoDAO::convertRowToObj($row);
+        return DB::table("tipo_de_quarto")->select("id", "nome")->where("id", $id)->first();
     }
     public static function getAll(){
-        $rows = DB::table("tipo_de_quarto")->get();
-        return TipoDeQuartoDAO::convertRowsToVectorOfObj($rows);
+        return DB::table("tipo_de_quarto")->get();
     }
     //-------------- GET --------------//
 
@@ -59,17 +57,17 @@ class TipoDeQuartoDAO extends Model
     //-------------- UPADTE --------------//
 
     //-------------- ADAPTER --------------//
-    private static function convertRowToObj($row){
-        if(!is_null($row))
-            return new TipoDeQuarto($row->id, $row->nome);
-        return null;
-    }
-    private static function convertRowsToVectorOfObj($rows){
-        $tipos = [];
-        foreach($rows as $row){
-            $tipos[count($tipos)] = TipoDeQuartoDAO::convertRowToObj($row);
-        }
-        return $tipos;
-    }
+    // private static function convertRowToObj($row){
+    //     if(!is_null($row))
+    //         return new TipoDeQuarto($row->id, $row->nome);
+    //     return null;
+    // }
+    // private static function convertRowsToVectorOfObj($rows){
+    //     $tipos = [];
+    //     foreach($rows as $row){
+    //         $tipos[count($tipos)] = TipoDeQuartoDAO::convertRowToObj($row);
+    //     }
+    //     return $tipos;
+    // }
     //-------------- ADAPTER --------------//
 }

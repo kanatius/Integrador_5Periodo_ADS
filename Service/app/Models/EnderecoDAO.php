@@ -11,17 +11,14 @@ class EnderecoDAO extends Model
 {
      //-------------- GET --------------//
      public static function findById($id){
-        $row = DB::table("endereco")->where("id", $id)->first();
-        return EnderecoDAO::convertRowToObj($row);
+        return DB::table("endereco")->select("id", "rua", "numero", "bairro", "cidade", "estado")->where("id", $id)->first();
     }
 
     public static function getAll(){
-        $rows = DB::table("endereco")->get();
-        return EnderecoDAO::convertRowsToVectorOfObj($rows);
+        return DB::table("endereco")->get();
     }
     public static function getEnderecoByCidade($cidade){
-        $rows = DB::table("endereco")->whereRaw("lower(cidade) like (?)", ("%" . strtolower($cidade) . "%"))->get();
-        return EnderecoDAO::convertRowsToVectorOfObj($rows);
+        return DB::table("endereco")->whereRaw("lower(cidade) like (?)", ("%" . strtolower($cidade) . "%"))->get();
     }
     //-------------- GET --------------//
 
@@ -84,18 +81,20 @@ class EnderecoDAO extends Model
         return $results;
     }
     //-------------- REMOVE--------------//
+
+
     //-------------- ADAPTER --------------//
-    private static function convertRowToObj($row){
-        if(!is_null($row))
-            return new Endereco($row->id, $row->rua, $row->numero, $row->bairro, $row->cidade, $row->estado);
-        return null;
-    }
-    private static function convertRowsToVectorOfObj($rows){
-        $quartos = [];
-        foreach($rows as $row){
-            $quartos[count($quartos)] = EnderecoDAO::convertRowToObj($row);
-        }
-        return $quartos;
-    }
+    // private static function convertRowToObj($row){
+    //     if(!is_null($row))
+    //         return new Endereco($row->id, $row->rua, $row->numero, $row->bairro, $row->cidade, $row->estado);
+    //     return null;
+    // }
+    // private static function convertRowsToVectorOfObj($rows){
+    //     $quartos = [];
+    //     foreach($rows as $row){
+    //         $quartos[count($quartos)] = EnderecoDAO::convertRowToObj($row);
+    //     }
+    //     return $quartos;
+    // }
     //-------------- ADAPTER --------------//
 }

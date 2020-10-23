@@ -11,13 +11,11 @@ class SituacaoDePagamentoDAO extends Model
 {
      //-------------- GET --------------//
      public static function findById($id){
-        $row = DB::table("situacao_de_pagamento")->where("id", $id)->first();
-        return SituacaoDePagamentoDAO::convertRowToObj($row);
+        return DB::table("situacao_de_pagamento")->select("id", "nome")->where("id", $id)->first();
     }
 
     public static function getAll(){
-        $rows = DB::table("situacao_de_pagamento")->get();
-        return SituacaoDePagamentoDAO::convertRowsToVectorOfObj($rows);
+        return DB::table("situacao_de_pagamento")->get();
     }
     //-------------- GET --------------//
 
@@ -59,17 +57,17 @@ class SituacaoDePagamentoDAO extends Model
     //-------------- UPDATE --------------//
 
     //-------------- ADAPTER --------------//
-    private static function convertRowToObj($row){
-        if(!is_null($row))
-            return new SituacaoDePagamento($row->id, $row->nome);
-        return null;
-    }
-    private static function convertRowsToVectorOfObj($rows){
-        $tipos = [];
-        foreach($rows as $row){
-            $tipos[count($tipos)] = SituacaoDePagamentoDAO::convertRowToObj($row);
-        }
-        return $tipos;
-    }
+    // private static function convertRowToObj($row){
+    //     if(!is_null($row))
+    //         return new SituacaoDePagamento($row->id, $row->nome);
+    //     return null;
+    // }
+    // private static function convertRowsToVectorOfObj($rows){
+    //     $tipos = [];
+    //     foreach($rows as $row){
+    //         $tipos[count($tipos)] = SituacaoDePagamentoDAO::convertRowToObj($row);
+    //     }
+    //     return $tipos;
+    // }
     //-------------- ADAPTER --------------//
 }

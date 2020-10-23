@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class AtenticacaoService extends ServiceProvider
+class AutenticacaoService extends ServiceProvider
 {
     /**
      * Register services.
@@ -26,7 +26,8 @@ class AtenticacaoService extends ServiceProvider
         //
     }
 
-    // public static function verifyReservaOwner(Usuario $usuario, Reserva $reserva){
-        
-    // }
+    public static function verifyToken($userId, $userToken){
+        $userBD = UsuarioService::getUsuarioById($userId);
+        return ($userToken == $userBD->token) ? true : false; //retorna true se o token inserido for igual ao que consta no banco
+    }
 }

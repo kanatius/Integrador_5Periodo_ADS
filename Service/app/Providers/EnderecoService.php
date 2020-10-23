@@ -30,23 +30,23 @@ class EnderecoService extends ServiceProvider
         //
     }
 
-    public static function getEnderecoByEstabelecimento(Estabelecimento $estabelecimento){
-        $idEndereco = EstabelecimentoService::getIdEndereco($estabelecimento);
-        return EnderecoDAO::findById($idEndereco);
+    public static function getEnderecoById($id){
+        return EnderecoDAO::findById($id);
     }
     public static function getEnderecoByCidade($cidade){
         return EnderecoDAO::getEnderecoByCidade($cidade);
     }
-    public static function registerEndereco(Endereco $endereco){
-        return EnderecoDAO::insert($endereco);
-    }
-    public static function registerAllEnderecos(Endereco $enderecos){
-        return EnderecoDAO::insertAll($enderecos);
-    }
-    public static function removeEndereco(Endereco $endereco){
-        return EnderecoDAO::remove($endereco);
-    }
-    public static function removeAllEnderecos(Endereco $enderecos){
-        return EnderecoDAO::removeAll($enderecos);
-    }
+    
+    // public static function registerEndereco(Endereco $endereco){
+    //     return EnderecoDAO::insert($endereco);
+    // }
+    // public static function registerAllEnderecos(Endereco $enderecos){
+    //     return EnderecoDAO::insertAll($enderecos);
+    // }
+    // public static function removeEndereco(Endereco $endereco){
+    //     return EnderecoDAO::remove($endereco);
+    // }
+    // public static function removeAllEnderecos(Endereco $enderecos){
+    //     return EnderecoDAO::removeAll($enderecos);
+    // }
 }

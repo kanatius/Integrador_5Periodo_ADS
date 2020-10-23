@@ -36,8 +36,7 @@ class TipoDeQuartoService extends ServiceProvider
         return new TipoDeQuarto(1, "Normal");
     }
 
-    public static function getTipoDeQuartoByQuarto(Quarto $quarto){
-        $idTipo = QuartoService::getIdTipoDeQuarto($quarto);
-        return TipoDeQuartoDAO::findById($idTipo);
+    public static function getTipoDeQuartoById($id){
+        return TipoDeQuartoDAO::findById($id);
     }
 }

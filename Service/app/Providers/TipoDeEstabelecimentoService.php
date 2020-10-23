@@ -36,8 +36,7 @@ class TipoDeEstabelecimentoService extends ServiceProvider
     public static function getHotel(){
         return new TipoDeEstabelecimento(2, "Hotel");
     }
-    public static function getTipoEstabelecimentoByEstabelecimento(Estabelecimento $estabelecimento){
-        $idTipo = EstabelecimentoService::getIdTipoDeEstabelecimento($estabelecimento);
-        return TipoDeEstabelecimentoDAO::findById($idTipo);
+    public static function getTipoDeEstabelecimentoById($id){
+        return TipoDeEstabelecimentoDAO::findById($id);
     }
 }

@@ -31,9 +31,8 @@ class SituacaoDePagamentoService extends ServiceProvider
         //
     }
 
-    public static function getSituacaoByReserva(Reserva $reserva){
-        $id_situacao = ReservaDAO::getIdSituacaoDePagamento($reserva);
-        return SituacaoDePagamentoDAO::findById($id_situacao);
+    public static function getSituacaoByIdReserva($id){
+        return SituacaoDePagamentoDAO::findById($id);
     }
 
     public static function getSituacaoPagamentoAguardando(){

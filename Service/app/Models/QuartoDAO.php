@@ -12,14 +12,12 @@ class QuartoDAO extends Model
     //-------------- GET --------------//
     public static function findById($id)
     {
-        $row = DB::table("quarto")->where("id", $id)->first();
-        return QuartoDAO::convertRowToObj($row);
+        return DB::table("quarto")->select("id", "andar", "numero", "valor", "id_tipo_de_quarto", "id_estabelecimento")->where("id", $id)->first();
     }
 
     public static function getAll()
     {
-        $rows = DB::table("quarto")->get();
-        return QuartoDAO::convertRowsToVectorOfObj($rows);
+        return DB::table("quarto")->get();
     }
 
     //get id
@@ -41,13 +39,11 @@ class QuartoDAO extends Model
     //get by id foreign key
     public static function getQuartosByIdEstabelecimento($idEstabelecimento)
     {
-        $rows = DB::table("quarto")->where("id_estabelecimento", $idEstabelecimento)->get();
-        return QuartoDAO::convertRowsToVectorOfObj($rows);
+        return DB::table("quarto")->where("id_estabelecimento", $idEstabelecimento)->get();
     }
     public static function getQuartosByIdTipoDeQuarto($idTipo)
     {
-        $rows = DB::table("quarto")->where("id_tipo_de_quarto", $idTipo)->get();
-        return QuartoDAO::convertRowsToVectorOfObj($rows);
+        return DB::table("quarto")->where("id_tipo_de_quarto", $idTipo)->get();
     }
     //get by id foreign key
 
@@ -108,20 +104,20 @@ class QuartoDAO extends Model
     //-------------- UPDATE--------------//
 
     //-------------- ADAPTER --------------//
-    private static function convertRowToObj($row)
-    {
-        if (!is_null($row))
-            return new Quarto($row->id, $row->andar, $row->numero, $row->valor);
-        return null;
-    }
+    // private static function convertRowToObj($row)
+    // {
+    //     if (!is_null($row))
+    //         return new Quarto($row->id, $row->andar, $row->numero, $row->valor);
+    //     return null;
+    // }
 
-    private static function convertRowsToVectorOfObj($rows)
-    {
-        $quartos = [];
-        foreach ($rows as $row) {
-            $quartos[count($quartos)] = QuartoDAO::convertRowToObj($row);
-        }
-        return $quartos;
-    }
+    // private static function convertRowsToVectorOfObj($rows)
+    // {
+    //     $quartos = [];
+    //     foreach ($rows as $row) {
+    //         $quartos[count($quartos)] = QuartoDAO::convertRowToObj($row);
+    //     }
+    //     return $quartos;
+    // }
     //-------------- ADAPTER --------------//
 }

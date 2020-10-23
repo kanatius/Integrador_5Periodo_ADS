@@ -12,52 +12,47 @@ class EstabelecimentoDAO extends Model
 {
     //-------------- GET --------------//
     public static function findById($id){
-        $row = DB::table("estabelecimento")->where("id", $id)->first();
-        return EstabelecimentoDAO::convertRowToObj($row);
+        return DB::table("estabelecimento")->select("id", "nome", "id_endereco", "id_tipo_de_estabelecimento")->where("id", $id)->first();
     }
 
     public static function getAll(){
-        $rows = DB::table("estabelecimento")->get();
-        return EstabelecimentoDAO::convertRowsToVectorOfObj($rows);
+        return DB::table("estabelecimento")->get();
     }
     public static function getAllOrderedByNome(){
-        $rows = DB::table("estabelecimento")->orderBy("nome")->get();
-        return EstabelecimentoDAO::convertRowsToVectorOfObj($rows);
+        return DB::table("estabelecimento")->orderBy("nome")->get();
     }
     //get id foreign key
-    public static function getIdTipoDeEstabelecimento(Estabelecimento $estabelecimento){
-        $row = DB::table("estabelecimento")->select("id_tipo_de_estabelecimento")->where("id", $estabelecimento->getId())->first();
-        return $row->id_tipo_de_estabelecimento;
-    }
-    public static function getIdEndereco(Estabelecimento $estabelecimento){
-        $row = DB::table("estabelecimento")->select("id_endereco")->where("id", $estabelecimento->getId())->first();
-        return $row->id_endereco;
-    }
+    // public static function getIdTipoDeEstabelecimento(Estabelecimento $estabelecimento){
+    //     $row = DB::table("estabelecimento")->select("id_tipo_de_estabelecimento")->where("id", $estabelecimento->getId())->first();
+    //     return $row->id_tipo_de_estabelecimento;
+    // }
+    // public static function getIdEndereco(Estabelecimento $estabelecimento){
+    //     $row = DB::table("estabelecimento")->select("id_endereco")->where("id", $estabelecimento->getId())->first();
+    //     return $row->id_endereco;
+    // }
     //get by foreign key
     public static function getByIdTipoDeEstabelecimento($id){
-        $rows = DB::table("estabelecimento")->where("id_tipo_de_estabelecimento", $id)->get();
-        return EstabelecimentoDAO::convertRowsToVectorOfObj($rows);
+        return  DB::table("estabelecimento")->where("id_tipo_de_estabelecimento", $id)->get();
     }
     public static function getByIdEndereco($id){
-        $row = DB::table("estabelecimento")->where("id_endereco", $id)->first();
-        return EstabelecimentoDAO::convertRowToObj($row);
+        return DB::table("estabelecimento")->where("id_endereco", $id)->first();
     }
     //-------------- GET --------------//
 
     //-------------- INSERT --------------//
-    public static function insert(Estabelecimento $estabelecimento){
-        $dados = [
-            "nome" => $estabelecimento->getNome(), 
-            "id_endereco" => $estabelecimento->getEndereco()->getId(), 
-            "id_tipo_de_estabelecimento" => $estabelecimento->getTipoDeEstabelecimento()->getId(), 
-            "created_at" => Carbon::now(), 
-            "updated_at" => null
-        ];
-        if($estabelecimento->getId() > 0){
-            $dados["id"] = $estabelecimento->getId();
-        }
-        return DB::table("estabelecimento")->insertGetID($dados);
-    }
+    // public static function insert(Estabelecimento $estabelecimento){
+    //     $dados = [
+    //         "nome" => $estabelecimento->getNome(), 
+    //         "id_endereco" => $estabelecimento->getEndereco()->getId(), 
+    //         "id_tipo_de_estabelecimento" => $estabelecimento->getTipoDeEstabelecimento()->getId(), 
+    //         "created_at" => Carbon::now(), 
+    //         "updated_at" => null
+    //     ];
+    //     if($estabelecimento->getId() > 0){
+    //         $dados["id"] = $estabelecimento->getId();
+    //     }
+    //     return DB::table("estabelecimento")->insertGetID($dados);
+    // }
 
     public static function insertAll($estabelecimentos){
         $ids = [];
@@ -85,8 +80,8 @@ class EstabelecimentoDAO extends Model
     //-------------- UPDATE --------------//
 
     //-------------- REMOVE--------------//
-    public static function remove(Estabelecimento $estabelecimento){
-        return DB::table("estabelecimento")->where("id", $estabelecimento->getId())->delete();
+    public static function removeById($id){
+        return DB::table("estabelecimento")->where("id", $id)->delete();
     }
     public static function removeAll($estabelecimentos){
         $results = [];
@@ -96,20 +91,4 @@ class EstabelecimentoDAO extends Model
         return $results;
     }
     //-------------- REMOVE--------------//
-
-    //-------------- ADAPTER --------------//
-     private static function convertRowToObj($row){
-        if(!is_null($row))
-            return new Estabelecimento($row->id, $row->nome);
-        return null;
-    }
-
-    private static function convertRowsToVectorOfObj($rows){
-        $quartos = [];
-        foreach($rows as $row){
-            $quartos[count($quartos)] = EstabelecimentoDAO::convertRowToObj($row);
-        }
-        return $quartos;
-    }
-    //-------------- ADAPTER --------------//
 }

@@ -10,6 +10,7 @@ class Usuario extends Model
     private $id;
     private $nome;
     private $email;
+    private $token;
     private $reservas;
 
     function __construct($id, $nome, $email)
@@ -33,6 +34,9 @@ class Usuario extends Model
     public function getReservas(){
         return $this->reservas;
     }
+    public function getToken(){
+        return $this->token;
+    }
     public function setNome($nome)
     {
         $this->nome = $nome;
@@ -52,5 +56,8 @@ class Usuario extends Model
     }
     public function setReservas($reservas){
         $this->reservas = $reservas;
+    }
+    public function setToken($token){
+        $this->token = $token;
     }
 }

@@ -6,7 +6,7 @@ use App\Models\Reserva;
 use App\Models\ReservaDAO;
 use App\Models\Usuario;
 use App\Models\Quarto;
-
+use App\Models\SituacaoDePagamento;
 use DateTime;
 
 
@@ -34,82 +34,103 @@ class ReservaService extends ServiceProvider
         //
     }
 
-    public static function getDataReserva(Reserva $reserva)
+    public static function getDataReserva($reserva)
     {
 
-        $situacaoDePagamento = SituacaoDePagamentoService::getSituacaoByReserva($reserva);
-        $quarto = QuartoService::getQuartoByReserva($reserva);
-        $tipoDeQuarto = TipoDeQuartoService::getTipoDeQuartoByQuarto($quarto);
-        $estabelecimento = EstabelecimentoService::getEstabelecimentoByQuarto($quarto);
-        $endereco = EnderecoService::getEnderecoByEstabelecimento($estabelecimento);
-        $usuario = UsuarioService::getUsuarioByReserva($reserva);
+        $situacaoDePagamento = SituacaoDePagamentoService::getSituacaoByIdReserva($reserva->id_situacao_de_pagamento);
+        $quarto = QuartoService::getQuatoById($reserva->id_quarto);
+        $tipoDeQuarto = TipoDeQuartoService::getTipoDeQuartoById($quarto->id_tipo_de_quarto);
+        $estabelecimento = EstabelecimentoService::getEstabelecimentoById($quarto->id_estabelecimento);
 
-        $estabelecimento->setEndereco($endereco);
-        $quarto->setEstabelecimento($estabelecimento);
-        $quarto->setTipoDeQuarto($tipoDeQuarto);
-        $reserva->setQuarto($quarto);
-        $reserva->setSituacaoDoPagamento($situacaoDePagamento);
-        $reserva->setUsuario($usuario);
-        return $reserva;
+        $quarto->tipo_de_quarto = $tipoDeQuarto;
+        $quarto->estabelecimento = $estabelecimento;
+        
+        return (object)[
+            "id" => $reserva->id,
+            "data_entrada" => $reserva->data_entrada,
+            "data_saida" => $reserva->data_saida,
+            "valor_a_pagar" => $reserva->valor_a_pagar,
+            "situacao_de_pagamento" => $situacaoDePagamento,
+            "quarto" => $quarto
+        ];
+        
+        // $tipoDeQuarto = TipoDeQuartoService::getTipoDeQuartoByQuarto($quarto);
+        // $estabelecimento = EstabelecimentoService::getEstabelecimentoByQuarto($quarto);
+        // $endereco = EnderecoService::getEnderecoByEstabelecimento($estabelecimento);
+        // $usuario = UsuarioService::getUsuarioByReserva($reserva);
+
+        // $estabelecimento->setEndereco($endereco);
+        // $quarto->setEstabelecimento($estabelecimento);
+        // $quarto->setTipoDeQuarto($tipoDeQuarto);
+        // $reserva->setQuarto($quarto);
+        // $reserva->setSituacaoDoPagamento($situacaoDePagamento);
+        // $reserva->setUsuario($usuario);
+        // return $reserva;
     }
 
-    public static function getReservasByUsuario(Usuario $usuario)
+    public static function getReservasByUserId($userId)
     {
-        $reservas = ReservaDAO::getReservasByIdUsuario($usuario->getId());
+        $reservas = ReservaDAO::getReservasByIdUsuario($userId);
+
+        $reservasObj = [];
+
         foreach ($reservas as $reserva) {
-            ReservaService::getDataReserva($reserva);
+          array_push($reservasObj,  ReservaService::getDataReserva($reserva));
         }
-        return $reservas;
+        return $reservasObj;
     }
+
     public static function getReservasById($id)
     {
         return ReservaDAO::findById($id);
     }
-    public static function pagarReserva(Usuario $usuario, Reserva $reserva)
-    {
 
-        if (SituacaoDePagamentoService::getSituacaoByReserva($reserva)->getId() == SituacaoDePagamentoService::getSituacaoPagamentoPago()->getId()) {
-            return false;
-        }
 
-        //se o usuario não for dono da reserva
-        if ($usuario->getId() != ReservaDAO::getIdUsuario($reserva)) {
-            return false;
-        }
+    // public static function pagarReserva(Usuario $usuario, Reserva $reserva)
+    // {
 
-        //$pagamento = PagamentoService pagar();
-        $pagamento = true;
+    //     if (SituacaoDePagamentoService::getSituacaoByReserva($reserva)->getId() == SituacaoDePagamentoService::getSituacaoPagamentoPago()->getId()) {
+    //         return false;
+    //     }
 
-        if ($pagamento) {
-            ReservaService::getDataReserva($reserva);
-            $reserva->setSituacaoDoPagamento(SituacaoDePagamentoService::getSituacaoPagamentoPago());
-            return ReservaDAO::update_($reserva);
-        }
-        return false;
-    }
+    //     //se o usuario não for dono da reserva
+    //     if ($usuario->getId() != ReservaDAO::getIdUsuario($reserva)) {
+    //         return false;
+    //     }
 
-    public static function cancelarReserva(Usuario $usuario, Reserva $reserva)
-    {
+    //     //$pagamento = PagamentoService pagar();
+    //     $pagamento = true;
 
-        if (SituacaoDePagamentoService::getSituacaoByReserva($reserva)->getId() == SituacaoDePagamentoService::getSituacaoPagamentoCancelado()->getId()) {
-            return false;
-        }
+    //     if ($pagamento) {
+    //         ReservaService::getDataReserva($reserva);
+    //         $reserva->setSituacaoDoPagamento(SituacaoDePagamentoService::getSituacaoPagamentoPago());
+    //         return ReservaDAO::update_($reserva);
+    //     }
+    //     return false;
+    // }
 
-        //se o usuario não for dono da reserva
-        if ($usuario->getId() != ReservaDAO::getIdUsuario($reserva)) {
-            return false;
-        }
+    // public static function cancelarReserva(Usuario $usuario, Reserva $reserva)
+    // {
 
-        //$pagamento = PagamentoService extorno();
-        $extorno = true;
+    //     if (SituacaoDePagamentoService::getSituacaoByReserva($reserva)->getId() == SituacaoDePagamentoService::getSituacaoPagamentoCancelado()->getId()) {
+    //         return false;
+    //     }
 
-        if ($extorno) {
-            ReservaService::getDataReserva($reserva);
-            $reserva->setSituacaoDoPagamento(SituacaoDePagamentoService::getSituacaoPagamentoCancelado());
-            return ReservaDAO::update_($reserva);
-        }
-        return false;
-    }
+    //     //se o usuario não for dono da reserva
+    //     if ($usuario->getId() != ReservaDAO::getIdUsuario($reserva)) {
+    //         return false;
+    //     }
+
+    //     //$pagamento = PagamentoService extorno();
+    //     $extorno = true;
+
+    //     if ($extorno) {
+    //         ReservaService::getDataReserva($reserva);
+    //         $reserva->setSituacaoDoPagamento(SituacaoDePagamentoService::getSituacaoPagamentoCancelado());
+    //         return ReservaDAO::update_($reserva);
+    //     }
+    //     return false;
+    // }
 
 
     public static function getIdQuarto(Reserva $reserva)
@@ -161,4 +182,22 @@ class ReservaService extends ServiceProvider
         }
         return false;
     }
+
+    //-------------- ADAPTER --------------//
+    private static function convertRowToObj($row){
+        if(!is_null($row)){
+            $reserva = new Reserva($row->id, $row->data_entrada, $row->data_saida);
+            $reserva->setValorAPagar($row->valor_a_pagar);
+            return $reserva;
+        }
+        return null;
+    }
+    private static function convertRowsToVectorOfObj($rows){
+        $reservas = [];
+        foreach($rows as $row){
+            $reservas[count($reservas)] = ReservaService::convertRowToObj($row);
+        }
+        return $reservas;
+    }
+    //-------------- ADAPTER --------------//
 }

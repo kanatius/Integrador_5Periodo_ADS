@@ -11,29 +11,24 @@ class ReservaDAO extends Model
 {
     //-------------- GET --------------//
     public static function findById($id){
-        $row = DB::table("reserva")->where("id", $id)->first();
-        return ReservaDAO::convertRowToObj($row);
+        return DB::table("reserva")->where("id", $id)->first();
     }
 
     public static function getAll(){
-        $rows = DB::table("reserva")->get();
-        return ReservaDAO::convertRowsToVectorOfObj($rows);
+        return DB::table("reserva")->get();
     }
     // get by id foreign key
     public static function getReservasByIdUsuario($id){
-        $rows = DB::table("reserva")->where("id_usuario", $id)->orderBy("data_saida", "desc")->get();
-        return ReservaDAO::convertRowsToVectorOfObj($rows);
+        return DB::table("reserva")->where("id_usuario", $id)->orderBy("data_saida", "desc")->get();
     }
     public static function getReservasByIdQuarto($id){
-        $rows = DB::table("reserva")->where("id_quarto", $id)->get();
-        return ReservaDAO::convertRowsToVectorOfObj($rows);
+        return DB::table("reserva")->where("id_quarto", $id)->get();
     }
     public static function getReservasByIdSituacaoDePagamento($id){
-        $rows = DB::table("reserva")->where("id_situacao_de_pagamento", $id)->get();
-        return ReservaDAO::convertRowsToVectorOfObj($rows);
+        return DB::table("reserva")->where("id_situacao_de_pagamento", $id)->get();
     }
     public static function getReservaByDates($id_quarto, $dataEntrada, $dataSaida){
-        $row = DB::table("reserva")->whereRaw(
+        return DB::table("reserva")->whereRaw(
             "id_quarto = (?) and ( 
                 (data_entrada >= (?) and data_entrada <= (?) )  
                 or 
@@ -41,7 +36,6 @@ class ReservaDAO extends Model
             )",
             [$id_quarto, $dataEntrada, $dataSaida, $dataEntrada, $dataSaida]
         )->first();
-        return ReservaDAO::convertRowToObj($row);
     }
     // get by id foreign key
 
@@ -108,22 +102,4 @@ class ReservaDAO extends Model
         return $results;
     }
     //-------------- UPDATE --------------//
-
-    //-------------- ADAPTER --------------//
-    private static function convertRowToObj($row){
-        if(!is_null($row)){
-            $reserva = new Reserva($row->id, $row->data_entrada, $row->data_saida);
-            $reserva->setValorAPagar($row->valor_a_pagar);
-            return $reserva;
-        }
-        return null;
-    }
-    private static function convertRowsToVectorOfObj($rows){
-        $reservas = [];
-        foreach($rows as $row){
-            $reservas[count($reservas)] = ReservaDAO::convertRowToObj($row);
-        }
-        return $reservas;
-    }
-    //-------------- ADAPTER --------------//
 }

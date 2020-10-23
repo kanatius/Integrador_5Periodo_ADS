@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Providers\LoginService;
+use App\Http\Controllers\UsuarioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,13 +16,13 @@ use App\Providers\LoginService;
 */
 
 Route::get('/', function () {
-    if(!LoginService::usuariosIsConnected()){ //se tiver usuario logado redireciona pra /home
+    if(LoginService::usuariosIsConnected()){ //se tiver usuario logado redireciona pra /home
         return redirect('/home');
     }
 
-    $view = view('index');
+    $view = view('index'); //instancia variável index
 
-    //se tiver alguma mensagem a ser mostrada
+    //se tiver alguma mensagem a ser mostrada, a adiciona
     if(isset($_GET["mensagem"])){
         $mensagem = $_GET["mensagem"];
         $view->with(compact('mensagem'));
@@ -33,9 +34,9 @@ Route::get("/usuario/signInPage", function(){
     return view("paginas/cadastrarUsuario");
 });
 
-Route::post("/logar", ['uses'=> 'UsuarioController@logar']);
+Route::post("/logar", [UsuarioController::class, "logar"]);
 
-// Route::get("/deslogar", ['uses' => 'UsuarioController@deslogar']);
+Route::get("/deslogar", [UsuarioController::class, "deslogar"]);
 
 Route::get("/home", ['uses' => 'EstabelecimentoController@acessarHome']);
 

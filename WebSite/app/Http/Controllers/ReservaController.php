@@ -20,10 +20,12 @@ class ReservaController extends Controller
             "userId" => $usuario->getId(),
             "userToken" => $usuario->getToken()
         ]);
-        $responseObj = $response->json();
+        $reservas = $response->json();
         
-        dd($responseObj);
+        $usuario = LoginService::getUsuarioLogado();
 
-        return json_encode($responseObj);
+        return view('/paginas/minhasReservas')
+            ->with(compact('reservas'))
+            ->with(compact('usuario'));
     }
 }

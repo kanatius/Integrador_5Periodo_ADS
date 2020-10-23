@@ -44,7 +44,7 @@ class ReservaService extends ServiceProvider
 
         $quarto->tipo_de_quarto = $tipoDeQuarto;
         $quarto->estabelecimento = $estabelecimento;
-        
+
         return (object)[
             "id" => $reserva->id,
             "data_entrada" => $reserva->data_entrada,
@@ -53,19 +53,6 @@ class ReservaService extends ServiceProvider
             "situacao_de_pagamento" => $situacaoDePagamento,
             "quarto" => $quarto
         ];
-        
-        // $tipoDeQuarto = TipoDeQuartoService::getTipoDeQuartoByQuarto($quarto);
-        // $estabelecimento = EstabelecimentoService::getEstabelecimentoByQuarto($quarto);
-        // $endereco = EnderecoService::getEnderecoByEstabelecimento($estabelecimento);
-        // $usuario = UsuarioService::getUsuarioByReserva($reserva);
-
-        // $estabelecimento->setEndereco($endereco);
-        // $quarto->setEstabelecimento($estabelecimento);
-        // $quarto->setTipoDeQuarto($tipoDeQuarto);
-        // $reserva->setQuarto($quarto);
-        // $reserva->setSituacaoDoPagamento($situacaoDePagamento);
-        // $reserva->setUsuario($usuario);
-        // return $reserva;
     }
 
     public static function getReservasByUserId($userId)

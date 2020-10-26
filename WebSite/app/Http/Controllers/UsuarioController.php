@@ -55,11 +55,28 @@ class UsuarioController extends Controller
         return view("paginas/home", compact('usuario'));
     }
 
-    // public function cadastrarUsuario(){
-    //     $usuario = new Usuario(0, $_POST["nome"], $_POST["email"]);
-    //     $id = UsuarioService::cadastrarUsuario($usuario);
-    //     if($id > 0)
-    //         return redirect("/?mensagem=Usuario cadastrado com sucesso!");
-    //     return redirect("/");
-    // }
+    public function cadastrarUsuario(Request $request){
+        
+        $data = $request->input();
+
+        if(!(isset($data["nome"]) && isset($data["senha"]) && isset($data["email"]))) //se tiver faltando algum dado
+            return redirect("/cadastrarUsuario?mensagem=dados incompletos!");
+
+        $nome = $data["nome"];
+        $senha = $data["senha"];
+        $email = $data["email"];
+
+        $response = Http::post("http://localhost:7000/api/cadastrarUsuario", [
+            "nome" => $nome,
+            "senha" => $senha,
+            "email" => $email
+        ]);
+
+        $respon = json_decode($response->json());
+
+        if($respon->status == true)
+            return redirect("/?mensagem=" . $respon->mensagem);
+        
+        return redirect("/usuario/signUpPage?mensagem=" . $respon->mensagem);
+    }
 }

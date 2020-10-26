@@ -32,7 +32,7 @@ Route::get('/', function () {
     return $view;
 });
 
-Route::get("/usuario/signInPage", function(){
+Route::get("/usuario/signUpPage", function(){
     return view("paginas/cadastrarUsuario");
 });
 
@@ -55,7 +55,7 @@ Route::get("/minhasReservas", [ReservaController::class, "acessarMinhasReservas"
 // Route::get("/visualizarQuartos", ['uses' => 'EstabelecimentoController@acessarVisualizarQuartos']);
 
 // // rotas de cadastro
-// Route::post("/cadastrarUsuario", ['uses' => 'UsuarioController@CadastrarUsuario']);
+Route::post("/cadastrarUsuario", [UsuarioController::class, 'cadastrarUsuario']);
 
 // Route::get("/pagarReserva", ['uses' => 'ReservaController@pagarReserva']);
 

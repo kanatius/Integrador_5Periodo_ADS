@@ -31,7 +31,7 @@
                     <ul class="navbar-nav ml-auto">
                     @include('/componentes/navbar/inicio')
                         <li class="nav-item">
-                            <a class="nav-link" href="/usuario/signInPage">Cadastre-se</a>
+                            <a class="nav-link" href="/usuario/signUpPage">Cadastre-se</a>
                         </li>
                     </ul>
                 </div>

@@ -23,9 +23,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post("/login", [UsuarioController::class, 'getUser']);
 
-Route::get("/reservas", [ReservaController::class, 'getUserReservations']);
+Route::post("/reservas", [ReservaController::class, 'getUserReservations']);
 
-// Route::get("/reservas", function(){
-//     return "1123";
-// });
+Route::post("/cadastrarUsuario", [UsuarioController::class, "cadastrarUsuario"]);
+
 

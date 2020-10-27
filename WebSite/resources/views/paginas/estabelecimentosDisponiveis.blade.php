@@ -67,8 +67,12 @@ $cidade = ucwords(strtolower($cidade));
                                     @foreach($estDisponiveis as $estabelecimento)
                                     <div class="row equipo-item">
                                         <div class="col-md-3
-                                                separador-vertical"><img src="/..." class="img-responsive
-                                                    center-block">
+                                        <?php $imgLinks = [
+                                            "i1" => "/img/pousada icon.png",
+                                            "i2" => "/img/hotel icon.png"
+                                        ]  ?>
+                                                separador-vertical"><img src="<?php echo $imgLinks["i" . $estabelecimento->getTipoDeEstabelecimento()->getId()]?>" class="img-responsive
+                                                    center-block imgIconEstabelecimento">
                                         </div>
                                         <div class="col-md-9">
                                             <div class="row sr_header">

@@ -231,6 +231,13 @@ body {
     background-color: #ea4c89
 }
 
+.imgIconEstabelecimento{
+    max-height: 180px;
+    max-width: 180px;
+    height: 100%;
+    width: 100%;
+}
+
 @media (max-width:767px) {
     .social-icons li.title {
         display: block;

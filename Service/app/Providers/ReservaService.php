@@ -160,9 +160,9 @@ class ReservaService extends ServiceProvider
         //PRECISA VERIFICAR SE JA HÁ ALGUMA RESERVA PRA AQUELE QUARTO, NAQUELAS DATA 
         return false;
     }
-    public static function verifyDisponibilidade(Quarto $quarto, $dataEntrada, $dataSaida)
+    public static function verifyDisponibilidade($IdQuarto, $dataEntrada, $dataSaida)
     {
-        $reserva = ReservaDAO::getReservaByDates($quarto->getId(), $dataEntrada, $dataSaida);
+        $reserva = ReservaDAO::getReservaByDates($IdQuarto, $dataEntrada, $dataSaida);
         //se não tiver reserva, retorna true
         if (is_null($reserva)) {
             return true;

@@ -64,7 +64,7 @@ $cidade = ucwords(strtolower($cidade));
                                 <!--Body-->
                                 <div class="container">
                                     <!-- linha 1 -->
-                                    @foreach($estabelecimentos as $estabelecimento)
+                                    @foreach($estDisponiveis as $estabelecimento)
                                     <div class="row equipo-item">
                                         <div class="col-md-3
                                                 separador-vertical"><img src="/..." class="img-responsive

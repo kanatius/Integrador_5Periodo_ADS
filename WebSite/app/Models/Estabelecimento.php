@@ -2,10 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
-class Estabelecimento extends Model
+class Estabelecimento
 {
     private $id;
     private $nome;
@@ -61,7 +58,4 @@ class Estabelecimento extends Model
             $this->addQuarto($quarto);
         }
     }
-    // function removeQuarto(Quarto $quarto){
-    //     return QuartoDAO::removeQuarto($this, $quarto);
-    // }
 }

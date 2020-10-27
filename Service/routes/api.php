@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EstabelecimentoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsuarioController;
@@ -26,5 +27,7 @@ Route::post("/login", [UsuarioController::class, 'getUser']);
 Route::post("/reservas", [ReservaController::class, 'getUserReservations']);
 
 Route::post("/cadastrarUsuario", [UsuarioController::class, "cadastrarUsuario"]);
+
+Route::get("/buscarEstabelecimentosDisponiveis", [EstabelecimentoController::class, "buscarEstabelecimentosDisponiveis"]);
 
 

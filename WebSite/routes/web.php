@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Providers\LoginService;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\ReservaController;
+use App\Http\Controllers\EstabelecimentoController;
 use Illuminate\Support\Facades\Log;
 
 /*
@@ -50,7 +51,7 @@ Route::get("/minhasReservas", [ReservaController::class, "acessarMinhasReservas"
 
 // Route::get("/estabelecimentos", ['uses' => 'EstabelecimentoController@acessarListarEstabelecimentos']);
 
-// Route::get("/buscarEstabelecimentos", ['uses' => 'EstabelecimentoController@buscarEstabelecimentos']);
+Route::get("/buscarEstabelecimentos", [EstabelecimentoController::class, 'buscarEstabelecimentos']);
 
 // Route::get("/visualizarQuartos", ['uses' => 'EstabelecimentoController@acessarVisualizarQuartos']);
 

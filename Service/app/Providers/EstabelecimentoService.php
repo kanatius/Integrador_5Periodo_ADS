@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Estabelecimento;
 use App\Models\EstabelecimentoDAO;
 use App\Models\Quarto;
+use DateTime;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -54,39 +55,55 @@ class EstabelecimentoService extends ServiceProvider
     //     }
     //     return $estabelecimentos;
     // }
-    // public static function getEstabelecimentosDisponiveis($cidade, $dataEntrada, $dataSaida){
-    //     $estDisponiveis = [];
+    public static function getEstabelecimentosDisponiveis($cidade, $dataEntrada, $dataSaida){
+        
+        if(new DateTime($dataSaida) < new DateTime($dataEntrada)){
+            //se a dataSaida é antes da data de entrada
+                return [
+                    "status" => false,
+                    "mensagem" => "Erro: data de saída inserida é anterior a data de entrada" 
+                ];
+            }
 
-    //     $estabelecimentos = EstabelecimentoService::getEstabelecimentoByCidade($cidade);
-    //     foreach($estabelecimentos as $estabelecimento){
-    //         if(EstabelecimentoService::verifyDisponibilidadeEstabelecimento($estabelecimento, $dataEntrada, $dataSaida)){
-    //             EstabelecimentoService::getDataEstabelecimento($estabelecimento);
-    //             $estDisponiveis[count($estDisponiveis)] = $estabelecimento;            
-    //         }   
-    //     }
-    //     return $estDisponiveis;
-    // }
+        $estDisponiveis = [];
 
-    // public static function verifyDisponibilidadeEstabelecimento(Estabelecimento $estabelecimento, $dataEntrada, $dataSaida){
-    //     $quartos = QuartoService::getQuartosByEstabelecimento($estabelecimento);
-    //     foreach($quartos as $quarto){
-    //         //se tiver algum quarto disponível, retorna true
-    //         if(ReservaService::verifyDisponibilidade($quarto, $dataEntrada, $dataSaida))
-    //         return true;
-    //     }
-    //     return false;
-    // }
-    // public static function getEstabelecimentoByCidade($cidade)
-    // {
-    //     $estabelecimentos = [];
-    //     $enderecos = EnderecoService::getEnderecoByCidade($cidade);
-    //     foreach ($enderecos as $endereco) {
-    //         $estabelecimento = EstabelecimentoDAO::getByIdEndereco($endereco->getId());
-    //         $estabelecimento->setEndereco($endereco);
-    //         $estabelecimentos[count($estabelecimentos)] = $estabelecimento;
-    //     }
-    //     return $estabelecimentos;
-    // }
+        $estabelecimentos = EstabelecimentoService::getEstabelecimentosByCidade($cidade);
+
+        foreach($estabelecimentos as $estabelecimento){
+            if(EstabelecimentoService::verifyDisponibilidadeEstabelecimento($estabelecimento->id, $dataEntrada, $dataSaida)){
+                $estabelecimento->tipo = TipoDeEstabelecimentoService::getTipoDeEstabelecimentoById($estabelecimento->id_tipo_de_estabelecimento);
+                unset($estabelecimento->id_tipo_de_estabelecimento);
+                $estDisponiveis[count($estDisponiveis)] = $estabelecimento;            
+            }   
+        }
+        return [
+            "status" => true,
+            "mensagem" => "Estabelecimentos disponíveis com check in em " . $dataEntrada . " e check out em " . $dataSaida,
+            "estabelecimentos" =>  $estDisponiveis
+        ];
+    }
+    public static function verifyDisponibilidadeEstabelecimento($id_estabelecimento, $dataEntrada, $dataSaida){
+        $quartos = QuartoService::getQuartosByIdEstabelecimento($id_estabelecimento);
+        foreach($quartos as $quarto){
+            //se tiver algum quarto disponível, retorna true
+            if(ReservaService::verifyDisponibilidade($quarto->id, $dataEntrada, $dataSaida))
+            return true; //se tiver qualquer quarto disponível, retorna true
+        }
+        return false;
+    }
+    public static function getEstabelecimentosByCidade($cidade)
+    {
+        $estabelecimentos = [];
+        $enderecos = EnderecoService::getEnderecosByCidade($cidade); //pega os endereços cadastrados
+        
+        foreach ($enderecos as $endereco) {
+            $estabelecimento = EstabelecimentoDAO::getByIdEndereco($endereco->id);
+            $estabelecimento->endereco = $endereco;
+            unset($estabelecimento->id_endereco);
+            $estabelecimentos[count($estabelecimentos)] = $estabelecimento;
+        }
+        return $estabelecimentos;
+    }
     // public static function getAllEstabelecimentosOrderedByNome()
     // {
     //     $estabelecimentos = EstabelecimentoDAO::getAllOrderedByNome();

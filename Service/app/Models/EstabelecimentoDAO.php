@@ -15,12 +15,12 @@ class EstabelecimentoDAO extends Model
         return DB::table("estabelecimento")->select("id", "nome", "id_endereco", "id_tipo_de_estabelecimento")->where("id", $id)->first();
     }
 
-    public static function getAll(){
-        return DB::table("estabelecimento")->get();
-    }
-    public static function getAllOrderedByNome(){
-        return DB::table("estabelecimento")->orderBy("nome")->get();
-    }
+    // public static function getAll(){
+    //     return DB::table("estabelecimento")->select("id", "nome", "id_endereco", "id_tipo_de_estabelecimento")->get();
+    // }
+    // public static function getAllOrderedByNome(){
+    //     return DB::table("estabelecimento")->select("id", "nome", "id_endereco", "id_tipo_de_estabelecimento")->orderBy("nome")->get();
+    // }
     //get id foreign key
     // public static function getIdTipoDeEstabelecimento(Estabelecimento $estabelecimento){
     //     $row = DB::table("estabelecimento")->select("id_tipo_de_estabelecimento")->where("id", $estabelecimento->getId())->first();
@@ -32,10 +32,10 @@ class EstabelecimentoDAO extends Model
     // }
     //get by foreign key
     public static function getByIdTipoDeEstabelecimento($id){
-        return  DB::table("estabelecimento")->where("id_tipo_de_estabelecimento", $id)->get();
+        return  DB::table("estabelecimento")->select("id", "nome", "id_endereco", "id_tipo_de_estabelecimento")->where("id_tipo_de_estabelecimento", $id)->get();
     }
     public static function getByIdEndereco($id){
-        return DB::table("estabelecimento")->where("id_endereco", $id)->first();
+        return DB::table("estabelecimento")->select("id", "nome", "id_endereco", "id_tipo_de_estabelecimento")->where("id_endereco", $id)->first();
     }
     //-------------- GET --------------//
 

@@ -33,8 +33,8 @@ class EnderecoService extends ServiceProvider
     public static function getEnderecoById($id){
         return EnderecoDAO::findById($id);
     }
-    public static function getEnderecoByCidade($cidade){
-        return EnderecoDAO::getEnderecoByCidade($cidade);
+    public static function getEnderecosByCidade($cidade){
+        return EnderecoDAO::getEnderecosByCidade($cidade);
     }
     
     // public static function registerEndereco(Endereco $endereco){

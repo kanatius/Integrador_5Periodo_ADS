@@ -17,8 +17,8 @@ class EnderecoDAO extends Model
     public static function getAll(){
         return DB::table("endereco")->get();
     }
-    public static function getEnderecoByCidade($cidade){
-        return DB::table("endereco")->whereRaw("lower(cidade) like (?)", ("%" . strtolower($cidade) . "%"))->get();
+    public static function getEnderecosByCidade($cidade){
+        return DB::table("endereco")->select("id", "rua", "numero", "bairro", "cidade", "estado")->whereRaw("lower(cidade) like (?)", ("%" . strtolower($cidade) . "%"))->get();
     }
     //-------------- GET --------------//
 

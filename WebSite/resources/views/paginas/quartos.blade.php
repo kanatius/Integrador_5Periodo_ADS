@@ -33,6 +33,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
+                <span>Seja Bem-Vindo, {{$usuario->getNome()}}!</span>
                     <ul class="navbar-nav ml-auto">
                         @include('/componentes/navbar/inicio')
                         @include('/componentes/navbar/minhasReservas')
@@ -46,11 +47,11 @@
     <h2>Quartos Disponiveis em {{$estabelecimento->getNome()}} com entrada em {{$dataEntrada}} e saída em {{$dataSaida}} da cidade de {{$estabelecimento->getEndereco()->getCidade()}}</h2>
 
     <h3>Quartos Normais</h3>
-    @if(count($estabelecimento->getQuartos()["normal"]) == 0)
+    @if(count($estabelecimento->getQuartos()["normais"]) == 0)
     Não há quartos normais disponíveis nesta data
     @endif
 
-    @foreach($estabelecimento->getQuartos()["normal"] as $quarto)
+    @foreach($estabelecimento->getQuartos()["normais"] as $quarto)
     <div>
         Andar: {{$quarto->getAndar()}}<br>
         Numero: {{$quarto->getNumero()}}<br>
@@ -61,11 +62,11 @@
     @endforeach
 
     <h3>Quartos VIPs</h3>
-    @if(count($estabelecimento->getQuartos()["VIP"]) == 0)
+    @if(count($estabelecimento->getQuartos()["VIPs"]) == 0)
     Não há quartos VIPs disponíveis nesta data
     @endif
 
-    @foreach($estabelecimento->getQuartos()["VIP"] as $quarto)
+    @foreach($estabelecimento->getQuartos()["VIPs"] as $quarto)
     <div>
         Andar: {{$quarto->getAndar()}}<br>
         Numero: {{$quarto->getNumero()}}<br>
@@ -168,10 +169,10 @@
                         </thead>
                         <tbody>
                             <!-- -->
-                            @foreach($estabelecimento->getQuartos()["normal"] as $quarto)
+                            @foreach($estabelecimento->getQuartos()["normais"] as $quarto)
                                 @include('/componentes/linhaTableQuartosDiponiveis')
                             @endforeach
-                            @foreach($estabelecimento->getQuartos()["VIP"] as $quarto)
+                            @foreach($estabelecimento->getQuartos()["VIPs"] as $quarto)
                                 @include('/componentes/linhaTableQuartosDiponiveis')
                             @endforeach
                             <!-- -->

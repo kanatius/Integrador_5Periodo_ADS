@@ -53,7 +53,7 @@ Route::get("/minhasReservas", [ReservaController::class, "acessarMinhasReservas"
 
 Route::get("/buscarEstabelecimentos", [EstabelecimentoController::class, 'buscarEstabelecimentos']);
 
-// Route::get("/visualizarQuartos", ['uses' => 'EstabelecimentoController@acessarVisualizarQuartos']);
+Route::get("/visualizarQuartos", [EstabelecimentoController::class, 'acessarVisualizarQuartosDisponiveis']);
 
 // // rotas de cadastro
 Route::post("/cadastrarUsuario", [UsuarioController::class, 'cadastrarUsuario']);

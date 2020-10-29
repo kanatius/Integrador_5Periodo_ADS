@@ -2,10 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
-class Quarto extends Model
+class Quarto
 {
     private $id;
     private TipoDeQuarto $tipo;

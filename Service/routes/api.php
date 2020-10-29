@@ -30,4 +30,4 @@ Route::post("/cadastrarUsuario", [UsuarioController::class, "cadastrarUsuario"])
 
 Route::get("/buscarEstabelecimentosDisponiveis", [EstabelecimentoController::class, "buscarEstabelecimentosDisponiveis"]);
 
-
+Route::get("/quartosDisponiveis", [EstabelecimentoController::class, "getQuartosDisponiveis"]);

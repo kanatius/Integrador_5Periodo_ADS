@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TipoDeQuarto extends Model
+class TipoDeQuarto
 {
     private $id;
     private $nome;

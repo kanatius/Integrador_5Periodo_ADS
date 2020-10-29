@@ -95,7 +95,7 @@ class EstabelecimentoService extends ServiceProvider
     {
         $estabelecimentos = [];
         $enderecos = EnderecoService::getEnderecosByCidade($cidade); //pega os endereços cadastrados
-        
+
         foreach ($enderecos as $endereco) {
             $estabelecimento = EstabelecimentoDAO::getByIdEndereco($endereco->id);
             $estabelecimento->endereco = $endereco;
@@ -104,6 +104,32 @@ class EstabelecimentoService extends ServiceProvider
         }
         return $estabelecimentos;
     }
+
+    public static function getQuartosDisponiveis($idEstabelecimento, $dataEntrada, $dataSaida){
+
+        $quartosDisponiveis = [];
+
+        $estabelecimento = EstabelecimentoService::getEstabelecimentoById($idEstabelecimento);
+        EstabelecimentoService::getDataEstabelecimento($estabelecimento);
+
+        unset($estabelecimento->id_endereco);
+        unset($estabelecimento->id_tipo_de_estabelecimento);
+
+        $quartos = QuartoService::getQuartosByIdEstabelecimento($idEstabelecimento);
+        foreach($quartos as $quarto){
+            if(ReservaService::verifyDisponibilidade($quarto->id, $dataEntrada, $dataSaida)){
+                $quarto->tipo_de_quarto = TipoDeQuartoService::getTipoDeQuartoById($quarto->id_tipo_de_quarto);
+                unset($quarto->id_tipo_de_quarto);
+                $quartosDisponiveis[count($quartosDisponiveis)] = $quarto;
+            }
+        }
+        $estabelecimento->quartosDisponiveis = $quartosDisponiveis;
+
+        return $estabelecimento;
+    }
+
+
+
     // public static function getAllEstabelecimentosOrderedByNome()
     // {
     //     $estabelecimentos = EstabelecimentoDAO::getAllOrderedByNome();

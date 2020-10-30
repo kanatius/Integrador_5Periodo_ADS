@@ -36,14 +36,14 @@ class SituacaoDePagamentoService extends ServiceProvider
     }
 
     public static function getSituacaoPagamentoAguardando(){
-        return new SituacaoDePagamento(1, "Aguardando");
+        return (object) ["id" => 1, "nome" => "Aguardando"];
     }
 
     public static function getSituacaoPagamentoPago(){
-        return new SituacaoDePagamento(2, "Pago");
+        return (object)["id" => 2, "nome" => "Pago"];
     }
 
     public static function getSituacaoPagamentoCancelado(){
-        return new SituacaoDePagamento(3, "Cancelado");
+        return (object) ["id" => 3, "nome" => "Cancelado"];
     }
 }

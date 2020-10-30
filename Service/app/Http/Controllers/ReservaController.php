@@ -20,4 +20,16 @@ class ReservaController extends Controller
 
         return json_encode($reservas);
     }
+
+    public function reservarQuarto(Request $request){
+
+        $params = $request->input();
+
+        if(!(isset($params["idQuarto"]) && isset($params["dataEntrada"]) && isset($params["dataSaida"]) && isset($params["usuario"]["id"]) && isset($params["usuario"]["token"])))
+            return json_encode([
+                "status" => false,
+                "mensagem" => "Dados incompletos"
+            ]);
+        return json_encode(ReservaService::reservarQuarto($params["idQuarto"], $params["dataEntrada"], $params["dataSaida"], $params["usuario"]));
+    }
 }

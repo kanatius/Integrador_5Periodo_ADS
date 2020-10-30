@@ -4,13 +4,11 @@ namespace App\Providers;
 
 use App\Models\Reserva;
 use App\Models\ReservaDAO;
-use App\Models\Usuario;
-use App\Models\Quarto;
-use App\Models\SituacaoDePagamento;
 use DateTime;
 
 
 use Illuminate\Support\ServiceProvider;
+use stdClass;
 
 class ReservaService extends ServiceProvider
 {
@@ -128,38 +126,48 @@ class ReservaService extends ServiceProvider
     {
         return ReservaDAO::getIdUsuario($reserva);
     }
-    public static function reservarQuarto($idQuarto, $dataEntrada, $dataSaida, $idUsuario)
+    public static function reservarQuarto($idQuarto, $dataEntrada, $dataSaida, $usuario)
     {
-        $reserva = new Reserva(0, $dataEntrada, $dataSaida);
-        $reserva->setSituacaoDoPagamento(SituacaoDePagamentoService::getSituacaoPagamentoAguardando());
-        $reserva->setUsuario(UsuarioService::getUsuarioById($idUsuario));
-        $reserva->setQuarto(QuartoService::getQuatoById($idQuarto));
-        if (ReservaService::registerReserva($reserva)) {
-            return "Quarto reservado com sucesso!";
-        };
-        return "Erro ao reservar o quarto!";
+        
+
+        if(!AutenticacaoService::verifyToken($usuario["id"], $usuario["token"]))
+                return json_encode([
+                    "status" => false,
+                    "mensagem" => "Usuário não autenticado!"
+                ]);
+
+        if(ReservaService::verifyDisponibilidade($idQuarto, $dataEntrada, $dataSaida)){
+            $reserva = new stdClass;
+            $reserva->id_situacao_de_pagamento = SituacaoDePagamentoService::getSituacaoPagamentoAguardando()->id;
+            
+            $reserva->id_quarto = $idQuarto;
+            $reserva->id_usuario = $usuario["id"];
+            $reserva->data_entrada = $dataEntrada;
+            $reserva->data_saida = $dataSaida; 
+            $reserva->valor_a_pagar = ReservaService::calculateValorApagar($idQuarto, $dataEntrada, $dataSaida);
+            
+            if (ReservaDAO::insert($reserva) > 0)
+                return [
+                    "status" => true,
+                    "mensagem" => "Reserva cadastrada com sucesso!"
+                ];
+        }
+        return [
+            "status" => false,
+            "mensagem" => "Quarto indisponível!"
+        ];
     }
 
-    public static function calculateValorApagar(Reserva $reserva){
-        $de = new DateTime($reserva->getDataEntrada());
-        $ds = new DateTime($reserva->getDataSaida());
+    public static function calculateValorApagar($idQuarto, $dataEntrada, $dataSaida){
+        $de = new DateTime($dataEntrada);
+        $ds = new DateTime($dataSaida);
         $intervalo = date_diff($ds, $de);
         $qtdDias = $intervalo->d + 1;
-        $valorDoQuarto = $reserva->getQuarto()->getValor();
-        $reserva->setValorAPagar($qtdDias * $valorDoQuarto);
+        $valorDoQuarto = QuartoService::getQuatoById($idQuarto)->valor;
+        return $qtdDias * $valorDoQuarto;
     }
 
-    public static function registerReserva(Reserva $reserva)
-    {
-        //REGRA DE NEGOCIO
-        if (ReservaService::verifyDisponibilidade($reserva->getQuarto(), $reserva->getDataEntrada(), $reserva->getDataSaida())) {
-            ReservaService::calculateValorApagar($reserva);
-            $reserva->setSituacaoDoPagamento(SituacaoDePagamentoService::getSituacaoPagamentoAguardando());
-            return ReservaDAO::insert($reserva);
-        }
-        //PRECISA VERIFICAR SE JA HÁ ALGUMA RESERVA PRA AQUELE QUARTO, NAQUELAS DATA 
-        return false;
-    }
+
     public static function verifyDisponibilidade($IdQuarto, $dataEntrada, $dataSaida)
     {
         $reserva = ReservaDAO::getReservaByDates($IdQuarto, $dataEntrada, $dataSaida);
@@ -170,21 +178,4 @@ class ReservaService extends ServiceProvider
         return false;
     }
 
-    //-------------- ADAPTER --------------//
-    private static function convertRowToObj($row){
-        if(!is_null($row)){
-            $reserva = new Reserva($row->id, $row->data_entrada, $row->data_saida);
-            $reserva->setValorAPagar($row->valor_a_pagar);
-            return $reserva;
-        }
-        return null;
-    }
-    private static function convertRowsToVectorOfObj($rows){
-        $reservas = [];
-        foreach($rows as $row){
-            $reservas[count($reservas)] = ReservaService::convertRowToObj($row);
-        }
-        return $reservas;
-    }
-    //-------------- ADAPTER --------------//
 }

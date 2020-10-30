@@ -87,7 +87,7 @@
     <td>
         <form id="btn-reserva">
             <div class="container text-center">
-                <a href="reservarQuarto/?idQuarto=<?php echo $quarto->getId() ?>&dataEntrada=<?php echo $dataEntrada ?>&dataSaida=<?php echo $dataSaida ?>" type="submit" class="btn btn-outline-primary">Reservar</a>
+                <a href="/reservarQuarto?idQuarto=<?php echo $quarto->getId() ?>&dataEntrada=<?php echo $dataEntrada ?>&dataSaida=<?php echo $dataSaida ?>" type="submit" class="btn btn-outline-primary">Reservar</a>
                 <div class="info-reserva">
                     <ul>
                         <li class="hprt-booking-cta-ticker__list-item">

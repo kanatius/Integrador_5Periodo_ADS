@@ -28,4 +28,30 @@ class ReservaController extends Controller
             ->with(compact('reservas'))
             ->with(compact('usuario'));
     }
+
+    public function reservarQuarto(Request $request){
+        $params = $request->input();
+
+        if(!(isset($params["idQuarto"]) && isset($params["dataEntrada"]) && isset($params["dataSaida"])))
+            return redirect("/home");
+        
+        $usuario = LoginService::getUsuarioLogadoWithToken();
+
+        $response = Http::get("http://localhost:7000/api/reservarQuarto", [
+           "idQuarto" =>  $params["idQuarto"],
+           "dataEntrada" => $params["dataEntrada"],
+           "dataSaida" => $params["dataSaida"],
+           "usuario" => ["id" => $usuario->getId(),
+                         "token" => $usuario->getToken()
+                        ]
+        ]);
+        $rep = $response->json();
+        
+        $mensagem = $rep["mensagem"];
+
+        if($rep["status"] == true){  
+            return redirect("/minhasReservas?mensagem=" . $mensagem);
+        }
+        return redirect("/home?mensagem=". $mensagem);
+    }
 }

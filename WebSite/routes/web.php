@@ -62,4 +62,4 @@ Route::post("/cadastrarUsuario", [UsuarioController::class, 'cadastrarUsuario'])
 
 // Route::get("/cancelarReserva", ['uses' => 'ReservaController@cancelarReserva']);
 
-// Route::get("/reservarQuarto", ['uses' => 'ReservaController@reservarQuarto']);
+Route::get("/reservarQuarto", [ReservaController::class , 'reservarQuarto']);

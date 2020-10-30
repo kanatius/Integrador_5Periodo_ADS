@@ -43,41 +43,7 @@
             </div>
         </nav>
     </header>
-    <!--
-    <h2>Quartos Disponiveis em {{$estabelecimento->getNome()}} com entrada em {{$dataEntrada}} e saída em {{$dataSaida}} da cidade de {{$estabelecimento->getEndereco()->getCidade()}}</h2>
 
-    <h3>Quartos Normais</h3>
-    @if(count($estabelecimento->getQuartos()["normais"]) == 0)
-    Não há quartos normais disponíveis nesta data
-    @endif
-
-    @foreach($estabelecimento->getQuartos()["normais"] as $quarto)
-    <div>
-        Andar: {{$quarto->getAndar()}}<br>
-        Numero: {{$quarto->getNumero()}}<br>
-        Preço: R$ {{$quarto->getValor()}}<br>
-        <a href="reservarQuarto/?idQuarto=<?php echo $quarto->getId() ?>&dataEntrada=<?php echo  $dataEntrada ?>&dataSaida=<?php echo $dataSaida ?>">Reservar este quarto</a>
-    </div>
-    <br>
-    @endforeach
-
-    <h3>Quartos VIPs</h3>
-    @if(count($estabelecimento->getQuartos()["VIPs"]) == 0)
-    Não há quartos VIPs disponíveis nesta data
-    @endif
-
-    @foreach($estabelecimento->getQuartos()["VIPs"] as $quarto)
-    <div>
-        Andar: {{$quarto->getAndar()}}<br>
-        Numero: {{$quarto->getNumero()}}<br>
-        Preço: R$ {{$quarto->getValor()}}<br>
-        <a href="reservarQuarto/?idQuarto=
-        <?php echo $quarto->getId() ?>&dataEntrada=<?php echo $dataEntrada ?>&dataSaida=<?php echo $dataSaida ?>
-        ">Reservar este quarto</a>
-    </div>
-    <br>
-    @endforeach
--->
     <section>
         <div class="container pagina-quartos">
             <div class="row">

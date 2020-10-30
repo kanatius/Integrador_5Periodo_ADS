@@ -56,19 +56,21 @@ class ReservaDAO extends Model
     //-------------- GET --------------//
 
     //-------------- INSERT --------------//
-    public static function insert(Reserva $reserva){
+    public static function insert($reserva){
         $dados = [
-            "data_entrada" => $reserva->getDataEntrada(),
-            "data_saida" => $reserva->getDataSaida(),
-            "valor_a_pagar" => $reserva->getValorAPagar(),
-            "id_quarto" => $reserva->getQuarto()->getId(),
-            "id_usuario" => $reserva->getUsuario()->getId(),
-            "id_situacao_de_pagamento" => $reserva->getSituacaoDoPagamento()->getId(),
+            "data_entrada" => $reserva->data_entrada,
+            "data_saida" => $reserva->data_saida,
+            "valor_a_pagar" => $reserva->valor_a_pagar,
+            "id_quarto" => $reserva->id_quarto,
+            "id_usuario" => $reserva->id_usuario,
+            "id_situacao_de_pagamento" => $reserva->id_situacao_de_pagamento,
             "created_at" => Carbon::now(),
             "updated_at" => null
         ];
-        if($reserva->getId() > 0){
-            $dados["id"] = $reserva->getId();
+
+        if(isset($reserva->id)){
+            if($reserva->id > 0)
+                $dados["id"] = $reserva->id;
         } 
         return DB::table("reserva")->insertGetId($dados);
     }

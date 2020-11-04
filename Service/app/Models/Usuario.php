@@ -2,9 +2,6 @@
 
 namespace App\Models;
 
-use App\Providers\ReservaService;
-
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Usuario extends Model
@@ -62,10 +59,4 @@ class Usuario extends Model
     public function setReservas($reservas){
         $this->reservas = $reservas;
     }
-    // public function payReserva(Reserva $reserva){
-    //     return ReservaService::payReserva($this, $reserva);
-    // }
-    // public function cancelReserva(Reserva $reserva){
-    //     return ReservaService::cancelReserva($this, $reserva);
-    // }
 }

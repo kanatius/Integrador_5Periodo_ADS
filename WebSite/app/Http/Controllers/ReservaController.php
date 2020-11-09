@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Http;
 
 class ReservaController extends Controller
 {
-    public function acessarMinhasReservas(){
+    public function acessarMinhasReservas(Request $request){
         
         if(!LoginService::usuariosIsConnected()){
             return redirect("/");

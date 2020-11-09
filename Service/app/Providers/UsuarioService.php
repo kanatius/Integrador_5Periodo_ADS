@@ -64,9 +64,7 @@ class UsuarioService extends ServiceProvider
         }
         return json_encode(null);
     }
-    // public static function getUsuariosByNomeLikesTo($texto){
-    //     return UsuarioDAO::getByNameLikesTo($texto);
-    // }
+   
     public static function getUsuarioById($id){
         return UsuarioDAO::findById($id);
     }

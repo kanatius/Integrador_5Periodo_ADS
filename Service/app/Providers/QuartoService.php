@@ -52,23 +52,8 @@ class QuartoService extends ServiceProvider
         return 500;
     }
 
-    // public static function getQuartoByReserva(Reserva $reserva){
-    //     $idQuarto = ReservaService::getIdQuarto($reserva);
-    //     return QuartoDAO::findById($idQuarto);
-    // }
     public static function getQuartosByIdEstabelecimento($idEstabelecimento){
         $quartos = QuartoDAO::getQuartosByIdEstabelecimento($idEstabelecimento);
         return $quartos;
     }
-    // public static function getIdEstabelecimento(Quarto $quarto){
-    //     return QuartoDAO::getIdEstabelecimento($quarto);
-    // }
-    // public static function getIdTipoDeQuarto(Quarto $quarto){
-    //     return QuartoDAO::getIdTipoDeQuarto($quarto);
-    // }
-    // public static function getDataQuarto(Quarto $quarto){
-    //     $tipo = TipoDeQuartoService::getTipoDeQuartoByQuarto($quarto);
-    //     $quarto->setTipoDeQuarto($tipo);
-    //     return $quarto;
-    // }
 }

@@ -40,18 +40,18 @@ class ReservaDAO extends Model
     // get by id foreign key
 
     // get id foreign key
-    public static function getIdUsuario(Reserva $reserva){
-        $row = DB::table("reserva")->select("id_usuario")->where("id", $reserva->getId())->first();
-        return $row->id_usuario;
-    }
-    public static function getIdQuarto(Reserva $reserva){
-        $row = DB::table("reserva")->select("id_quarto")->where("id", $reserva->getId())->first();
-        return $row->id_quarto;
-    }
-    public static function getIdSituacaoDePagamento(Reserva $reserva){
-        $row = DB::table("reserva")->select("id_situacao_de_pagamento")->where("id", $reserva->getId())->first();
-        return $row->id_situacao_de_pagamento;
-    }
+    // public static function getIdUsuario(Reserva $reserva){
+    //     $row = DB::table("reserva")->select("id_usuario")->where("id", $reserva->getId())->first();
+    //     return $row->id_usuario;
+    // }
+    // public static function getIdQuarto(Reserva $reserva){
+    //     $row = DB::table("reserva")->select("id_quarto")->where("id", $reserva->getId())->first();
+    //     return $row->id_quarto;
+    // }
+    // public static function getIdSituacaoDePagamento(Reserva $reserva){
+    //     $row = DB::table("reserva")->select("id_situacao_de_pagamento")->where("id", $reserva->getId())->first();
+    //     return $row->id_situacao_de_pagamento;
+    // }
     // get id foreign key
     //-------------- GET --------------//
 
@@ -75,27 +75,27 @@ class ReservaDAO extends Model
         return DB::table("reserva")->insertGetId($dados);
     }
 
-    public static function insertAll(Reserva $reservas){
-        $ids = [];
-        foreach($reservas as $reserva){
-            $ids[count($ids)] = ReservaDAO::insert($reserva);
-        }
-        return $ids;
-    }
+    // public static function insertAll(Reserva $reservas){
+    //     $ids = [];
+    //     foreach($reservas as $reserva){
+    //         $ids[count($ids)] = ReservaDAO::insert($reserva);
+    //     }
+    //     return $ids;
+    // }
     //-------------- INSERT --------------//
 
     //-------------- UPDATE --------------//
-    public static function update_(Reserva $reserva){
-        return DB::table("reserva")->where("id", $reserva->getId())->update([
-            "data_entrada" => $reserva->getDataEntrada(),
-            "data_saida" => $reserva->getDataSaida(),
-            "valor_a_pagar" => $reserva->getValorAPagar(),
-            "id_quarto" => $reserva->getQuarto()->getId(),
-            "id_usuario" => $reserva->getUsuario()->getId(),
-            "id_situacao_de_pagamento" => $reserva->getSituacaoDoPagamento()->getId(),
-            "updated_at" => Carbon::now()
-        ]);
-    }
+    // public static function update_(Reserva $reserva){
+    //     return DB::table("reserva")->where("id", $reserva->getId())->update([
+    //         "data_entrada" => $reserva->getDataEntrada(),
+    //         "data_saida" => $reserva->getDataSaida(),
+    //         "valor_a_pagar" => $reserva->getValorAPagar(),
+    //         "id_quarto" => $reserva->getQuarto()->getId(),
+    //         "id_usuario" => $reserva->getUsuario()->getId(),
+    //         "id_situacao_de_pagamento" => $reserva->getSituacaoDoPagamento()->getId(),
+    //         "updated_at" => Carbon::now()
+    //     ]);
+    // }
     public static function updateAll($reservas){
         $results = [];
         foreach($reservas as $reserva){

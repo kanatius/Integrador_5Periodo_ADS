@@ -118,17 +118,16 @@ class ReservaService extends ServiceProvider
     // }
 
 
-    public static function getIdQuarto(Reserva $reserva)
-    {
-        return ReservaDAO::getIdQuarto($reserva);
-    }
-    public static function getIdUsuario(Reserva $reserva)
-    {
-        return ReservaDAO::getIdUsuario($reserva);
-    }
+    // public static function getIdQuarto(Reserva $reserva)
+    // {
+    //     return ReservaDAO::getIdQuarto($reserva);
+    // }
+    // public static function getIdUsuario(Reserva $reserva)
+    // {
+    //     return ReservaDAO::getIdUsuario($reserva);
+    // }
     public static function reservarQuarto($idQuarto, $dataEntrada, $dataSaida, $usuario)
     {
-        
 
         if(!AutenticacaoService::verifyToken($usuario["id"], $usuario["token"]))
                 return json_encode([

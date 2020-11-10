@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
     <meta charset="UTF-8">
     <!-- Required meta tags -->
@@ -13,6 +14,7 @@
     <link rel="stylesheet" href="../css/loginStyle.css">
     <title>Login</title>
 </head>
+
 <body>
 
     <!-- Navigation -->
@@ -23,11 +25,11 @@
                     <img src="../img/logo2.png" width="80" height="60" class="d-inline-block align-top" alt="">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+                    <span class="navbar-toggler-icon"></span>
+                </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
-                    @include('/componentes/navbar/inicio')
+                        @include('/componentes/navbar/inicio')
                         <li class="nav-item">
                             <a class="nav-link" href="/usuario/signUpPage">Cadastre-se</a>
                         </li>
@@ -38,10 +40,6 @@
     </header>
 
     <!-- Page Content -->
-    @if(isset($mensagem)) 
-    <div>{{$mensagem}}</div>
-    @endif
-
     <section>
         <div class="container pagina-login">
             <div class="row">
@@ -53,16 +51,21 @@
                             <!-- Grid column -->
 
                             <div class="col-md-6 col-sm-12">
+                                @if(isset($mensagem))
+                                    @if(!is_null($mensagem))
+                                        @include('/componentes/alertBox')
+                                    @endif
+                                @endif
                                 <div class="card">
                                     <div class="card-body">
                                         <span>
-                      <i class="fa fa-user-circle-o fa-5x" aria-hidden="true" style="color: #ff5800d4;"></i>
-                    </span>
+                                            <i class="fa fa-user-circle-o fa-5x" aria-hidden="true" style="color: #ff5800d4;"></i>
+                                        </span>
                                         <h2 class="text-center default-text py-2 text-secondary"> Faça seu login</h2>
                                         <p class="text-secondary">Exclusivo para usúarios</p>
                                         <!--Body-->
                                         <form action="/logar" method="post">
-                                        @csrf
+                                            @csrf
                                             <div class="form-group row justify-content-center">
                                                 <!-- <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label> -->
 
@@ -84,8 +87,7 @@
                                         </form>
 
                                         <div class=" text-center m-3">
-                                            <a href="#" style="color: #ff5800;">ainda não é nosso parceiro? <i
-                          class="far fa-arrow-alt-circle-right"></i> </a>
+                                            <a href="#" style="color: #ff5800;">ainda não é nosso parceiro? <i class="far fa-arrow-alt-circle-right"></i> </a>
 
                                         </div>
                                     </div>
@@ -102,8 +104,9 @@
     </section>
     <!--footer-->
     <!-- Site footer -->
-    
+
     @include('/componentes/footer')
 
 </body>
+
 </html>

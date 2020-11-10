@@ -45,9 +45,15 @@
         </header>
         <!-- Page Content -->
         <section id="main">
-            <div class="container pagina-login">
-                <div class="row login ">
 
+            <div class="container pagina-login">
+                @if(isset($mensagem))
+                    @if(!is_null($mensagem))
+                        @include('/componentes/alertBox')
+                    @endif
+                @endif
+                <div class="row login ">
+                    
                     <div class="col-lg-12 text-center">
                         <span class="text-center">
                             <img src="../img/reception.png" width="80" height="80" class="d-inline-block align-top m-3" alt="">
@@ -55,8 +61,6 @@
                         </span>
 
                         <div class="container">
-
-
 
                             <div class="row justify-content-center  ">
                                 <!-- Grid column -->
@@ -91,7 +95,7 @@
                                     <button type="submit" class="btn btn-dark " style="background-color: #ff5800;border: none;">Cadastrar</button>
                                     </br>
                                     </br>
-                                    </form>
+                                </form>
 
                             </div>
                         </div>

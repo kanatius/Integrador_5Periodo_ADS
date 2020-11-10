@@ -39,8 +39,11 @@ class UsuarioController extends Controller
         }
 
         //se não achou usuario
-        $mensagem = "Não foi possível realizar o login";
-        return redirect("/?mensagem=" . $mensagem);
+        $mensagem = [
+            "status" => false,
+            "mensagem" => "Não foi possível realizar o login"
+        ];
+        return redirect("/?mensagem=" . json_encode($mensagem));
     }
 
     public function acessarHome()
@@ -54,7 +57,15 @@ class UsuarioController extends Controller
 
         return view("paginas/home", compact('usuario'));
     }
+    public function acessarSignUpPage(Request $request){
+        $params = $request->input();
 
+        if(isset($params["mensagem"])){
+            $mensagem = json_decode($params["mensagem"]);
+            return view("paginas/cadastrarUsuario")->with(compact('mensagem'));
+        }
+        return view("paginas/cadastrarUsuario");
+    }
     public function cadastrarUsuario(Request $request){
         
         $data = $request->input();
@@ -75,8 +86,8 @@ class UsuarioController extends Controller
         $respon = json_decode($response->json());
 
         if($respon->status == true)
-            return redirect("/?mensagem=" . $respon->mensagem);
+            return redirect("/?mensagem=" . json_encode($respon));
         
-        return redirect("/usuario/signUpPage?mensagem=" . $respon->mensagem);
+        return redirect("/usuario/signUpPage?mensagem=" . json_encode($respon));
     }
 }

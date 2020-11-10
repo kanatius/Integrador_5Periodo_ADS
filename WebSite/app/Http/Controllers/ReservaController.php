@@ -14,6 +14,14 @@ class ReservaController extends Controller
             return redirect("/");
         }
 
+        $params = $request->input();
+        
+        $mensagem = null; 
+
+        if(isset($params["mensagem"])){
+            $mensagem = json_decode($params["mensagem"]);   
+        }
+
         $usuario = LoginService::getUsuarioLogadoWithToken();
 
         $response = Http::post("http://localhost:7000/api/reservas", [
@@ -26,7 +34,8 @@ class ReservaController extends Controller
 
         return view('/paginas/minhasReservas')
             ->with(compact('reservas'))
-            ->with(compact('usuario'));
+            ->with(compact('usuario'))
+            ->with(compact('mensagem'));
     }
 
     public function reservarQuarto(Request $request){
@@ -47,7 +56,7 @@ class ReservaController extends Controller
         ]);
         $rep = $response->json();
         
-        $mensagem = $rep["mensagem"];
+        $mensagem = json_encode($rep);
 
         if($rep["status"] == true){  
             return redirect("/minhasReservas?mensagem=" . $mensagem);

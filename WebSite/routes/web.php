@@ -27,15 +27,13 @@ Route::get('/', function () {
 
     //se tiver alguma mensagem a ser mostrada, a adiciona
     if(isset($_GET["mensagem"])){
-        $mensagem = $_GET["mensagem"];
+        $mensagem = json_decode($_GET["mensagem"]);
         $view->with(compact('mensagem'));
     }    
     return $view;
 });
 
-Route::get("/usuario/signUpPage", function(){
-    return view("paginas/cadastrarUsuario");
-});
+Route::get("/usuario/signUpPage", [UsuarioController::class, "acessarSignUpPage"]);
 
 Route::post("/logar", [UsuarioController::class, "logar"]);
 

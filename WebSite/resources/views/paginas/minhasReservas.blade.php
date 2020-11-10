@@ -37,12 +37,16 @@
         </nav>
     </header>
 
-    <h3>{{$mensagem ?? ""}}</h3>
-
-
     <section>
+
         <div class="container pagina-reservas">
+
             <div class="row">
+                @if(isset($mensagem))
+                    @if(!is_null($mensagem))
+                        @include('/componentes/alertBox')
+                    @endif
+                @endif
                 <div class="col-lg-12 text-center info-geral-reservas">
 
                     <div class="container ">
@@ -83,15 +87,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php 
+                                <?php
                                 //Classes dos botões
                                 $classeStatusPagamento = [
                                     "Aguardando" => "badge-primary",
                                     "Pago" => "badge-success",
-                                    "Cancelado" => "badge-danger"];
+                                    "Cancelado" => "badge-danger"
+                                ];
                                 ?>
                                 @foreach($reservas as $reserva)
-                                <?php 
+                                <?php
                                 $statusPag = $reserva["situacao_de_pagamento"]["nome"];
                                 $dataEntrada = new DateTime($reserva["data_entrada"]);
                                 $dataSaida = new DateTime($reserva["data_saida"]);
@@ -101,7 +106,7 @@
                                     <td class="item">{{$reserva["quarto"]["estabelecimento"]["nome"]}}</td>
                                     <td class="item">{{$dataEntrada->format("d/m/Y")}}</td>
                                     <td class="item">{{$dataSaida->format("d/m/Y")}}</td>
-                                    <td><span class="badge <?php echo $classeStatusPagamento[$statusPag]?>">{{$statusPag}}</span></td>
+                                    <td><span class="badge <?php echo $classeStatusPagamento[$statusPag] ?>">{{$statusPag}}</span></td>
                                     <td>
                                         <div class="btn-group">
                                             <button class="btn btn-light btn-sm" type="button">
@@ -226,27 +231,29 @@
                 </div>
 
             </div>
-        </div>   
+        </div>
     </section>
     @include('componentes/footer')
 
     <script>
-        $(function () {
-            
+        $(function() {
+
+            //Função que abre modal com informações da linha
             $('.item').on('click', function(event) {
                 event.preventDefault();
                 $('#myModal').modal('show');
             })
-            
-            $('#input-search').on('keyup', function() { //Função que abre modal com informações da linha
+
+            //função para a pesquisa de reservas pelo nome do hotel
+            $('#input-search').on('keyup', function() {
                 var rex = new RegExp($(this).val(), 'i');
                 $('.searchable-container .items').hide();
                 $('.searchable-container .items').filter(function() {
                     return rex.test($(this).text());
-            }).show();
-        });
-    
-     
+                }).show();
+            });
+
+
         });
     </script>
 </body>

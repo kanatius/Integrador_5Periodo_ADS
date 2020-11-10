@@ -32,8 +32,7 @@
                 <span>Seja Bem-Vindo, {{$usuario->getNome()}}!</span>
                     <ul class="navbar-nav ml-auto">
                         @include('/componentes/navbar/inicio')
-                        @include('/componentes/navbar/minhasReservas')  
-                        @include('/componentes/navbar/hoteisEPousadasCadastrados')
+                        @include('/componentes/navbar/minhasReservas')
                         @include('/componentes/navbar/sair')
                     </ul>
                 </div>
@@ -48,24 +47,15 @@
 
                     <div class="container">
                         <div class="row justify-content-center ">
-
                             <!-- Grid column -->
-                            <div class=" col-sm">
+                            <div class="col-sm" id="cardPesquisa">
+                                
                                 <div class="card">
-                                    </br>
                                     <div class="">
+                                        <br>
                                         <h3 class="hero__title">Encontre um hotel ou pousada ideal para seus planos!</h3>
                                     </div>
                                     <div class="card-body">
-
-                                        <!-- <div>
-                                        <form action="/buscarEstabelecimentos">
-                                            Data de Entrada: <input type="date" name="dataEntrada" id=""><br>
-                                            Data de Saida: <input type="date" name="dataSaida" id=""><br>
-                                            Cidade: <input type="text" name="cidade" id=""><br>
-                                            <button>Procurar</button>
-                                        </form>
-                                        </div> -->
 
                                         <form action="/buscarEstabelecimentos">
                                         
@@ -102,7 +92,7 @@
             <div>
                 <h3>Inspire-se e escolha o próximo destino das suas férias</h3>
             </div>
-            <div class="row mb-2">
+            <div class="row mb-4">
                 <div class="col-md-4">
                     <div class="card">
                         <img class="card-img-top" src="../img/bar.jpg" alt="Card image cap" style="height: 260.987px;">
@@ -130,7 +120,6 @@
                             <h5 class="card-title">Os 5 lugares mais românticos do Brasil</h5>
                             <p class="card-text">Viva momentos incrivéis e marcantes nos lugares mais românticos do Brasil, seja pela natureza ou pela arquitetura,e colecione lindas memórias com o seu amor!</p>
                             <a href="https://casalnomade.com/os-5-lugares-mais-romanticos-do-brasil-para-passar-o-mes-dos-namorados/" target="_blank">Os 5 lugares mais românticos do Brasil para passar o mês dos namorados!</a>
-
                         </div>
                     </div>
                 </div>

@@ -50,10 +50,9 @@ tbody > tr {
 }
 
 .pesquisa{
-    border: 1px solid;
     padding: 10px;
     margin: 10px;
-    box-shadow: 2px 2px #d9dbdf;
+    /* box-shadow: 2px 2px #d9dbdf; */
 }
 /* footer */
 

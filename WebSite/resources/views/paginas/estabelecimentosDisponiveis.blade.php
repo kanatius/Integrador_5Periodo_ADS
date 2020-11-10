@@ -61,7 +61,9 @@
                                 <div class="container">
                                     <!-- linha 1 -->
                                     @foreach($estDisponiveis as $estabelecimento)
-                                    <div class="row equipo-item">
+                                    <div class="row equipo-item" style="background-color:white;">
+
+                                    <!-- Div Imagem -->
                                         <div class="col-md-3
                                         <?php $imgLinks = [
                                             "i1" => "/img/pousada icon.png",
@@ -70,6 +72,7 @@
                                                 separador-vertical"><img src="<?php echo $imgLinks["i" . $estabelecimento->getTipoDeEstabelecimento()->getId()]?>" class="img-responsive
                                                     center-block imgIconEstabelecimento">
                                         </div>
+                                        <!-- Div Imagem -->
                                         <div class="col-md-9">
                                             <div class="row sr_header">
                                                 <div class="col-md-9">

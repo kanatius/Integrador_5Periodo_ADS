@@ -4,7 +4,7 @@ body {
 }
 body{
     font-family: 'Roboto', sans-serif;
-    color: #4D5357;;
+    color: #4D5357;
     background-color: #eeeeee;
     
 }
@@ -12,6 +12,10 @@ body{
     padding-top: 90px;
     padding-bottom: 90px;
 }
+#cardPesquisa{
+  padding:0px;
+}
+
 #topo{
     
     background-color: #ff5800;

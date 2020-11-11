@@ -38,23 +38,30 @@ class EstabelecimentoService extends ServiceProvider
         $estabelecimento->tipo_de_estabelecimento = $tipo;
         return $estabelecimento;
     }
+
+
     public static function getEstabelecimentoById($id){
         $est = EstabelecimentoDAO::findById($id);
         EstabelecimentoService::getDataEstabelecimento($est);
         return $est;
     }
 
-    // public static function getAllEstabelecimentos()
-    // {
-    //     $estabelecimentos = EstabelecimentoDAO::getAll();
-    //     foreach ($estabelecimentos as $estabelecimento) {
-    //         $tipo = TipoDeEstabelecimentoService::getTipoEstabelecimentoByEstabelecimento($estabelecimento);
-    //         $endereco = EnderecoService::getEnderecoByEstabelecimento($estabelecimento);
-    //         $estabelecimento->setTipoDeEstabelecimento($tipo);
-    //         $estabelecimento->setEndereco($endereco);
-    //     }
-    //     return $estabelecimentos;
-    // }
+    #PEGA DADOS DE ESTABELECIMENTOS POR VETOR DE IDS
+    public static function getEstabelecimentosByIds($ids){
+        $resp = EstabelecimentoDAO::getEstabelecimentosByIds($ids);
+
+        $estabelecimentos = [];
+
+        foreach($resp as $row){
+            $estabelecimentos[count($estabelecimentos)] = EstabelecimentoService::convertRowForSending($row);
+        }
+
+        return [
+            "status" => true,
+            "estabelecimentos" => $estabelecimentos
+        ];
+    }
+
     public static function getEstabelecimentosDisponiveis($cidade, $dataEntrada, $dataSaida){
         
         if(new DateTime($dataSaida) < new DateTime($dataEntrada)){
@@ -128,60 +135,28 @@ class EstabelecimentoService extends ServiceProvider
         return $estabelecimento;
     }
 
+    public static function convertRowForSending($row){
 
+        $endereco = [
+            "id" => $row->end_id,
+            "rua" => $row->end_rua,
+            "numero" => $row->end_numero,
+            "bairro" => $row->end_bairro,
+            "cidade" => $row->end_cidade
+        ];
 
-    // public static function getAllEstabelecimentosOrderedByNome()
-    // {
-    //     $estabelecimentos = EstabelecimentoDAO::getAllOrderedByNome();
-    //     foreach ($estabelecimentos as $estabelecimento) {
-    //         $tipo = TipoDeEstabelecimentoService::getTipoEstabelecimentoByEstabelecimento($estabelecimento);
-    //         $endereco = EnderecoService::getEnderecoByEstabelecimento($estabelecimento);
-    //         $estabelecimento->setTipoDeEstabelecimento($tipo);
-    //         $estabelecimento->setEndereco($endereco);
-    //     }
-    //     return $estabelecimentos;
-    // }
-    // public static function getEstabelecimentoByQuarto(Quarto $quarto)
-    // {
-    //     $id_estabelecimento = QuartoService::getIdEstabelecimento($quarto);
-    //     return EstabelecimentoDAO::findById($id_estabelecimento);
-    // }
+        $tipo_de_estabelecimento = [
+            "id" => $row->tipoDeEstabelecimento_id,
+            "nome" => $row->tipoDeEstabelecimento_nome
+        ];
 
-    // public static function getIdEndereco(Estabelecimento $estabelecimento)
-    // {
-    //     return EstabelecimentoDAO::getIdEndereco($estabelecimento);
-    // }
-    // public static function getIdTipoDeEstabelecimento(Estabelecimento $estabelecimento)
-    // {
-    //     return EstabelecimentoDAO::getIdTipoDeEstabelecimento($estabelecimento);
-    // }
+        $estabelecimento = [
+            "id" => $row->est_id,
+            "nome" => $row->est_nome,
+            "endereco" => $endereco,
+            "tipo_de_estabelecimento" => $tipo_de_estabelecimento
+        ];
 
-
-    // public static function registerEstabelecimento(Estabelecimento $estabelecimento)
-    // {
-    //     $id = EnderecoService::registerEndereco($estabelecimento->getEndereco());
-    //     $estabelecimento->getEndereco()->setId($id);
-    //     return EstabelecimentoDAO::insert($estabelecimento);
-    // }
-    // public static function registerAllEstabelecimentos($estabelecimentos)
-    // {
-    //     $results = [];
-    //     foreach ($estabelecimentos as $estabelecimento) {
-    //         $results[count($results)] = EstabelecimentoService::registerEstabelecimento($estabelecimento);
-    //     }
-    //     return $results;
-    // }
-    // public static function removeEstabelecimento(Estabelecimento $estabelecimento)
-    // {
-    //     EstabelecimentoDAO::remove($estabelecimento);
-    //     return EnderecoService::removeEndereco($estabelecimento->getEndereco());
-    // }
-    // public static function removeAllEstabelecimentos(Estabelecimento $estabelecimentos)
-    // {
-    //     $results = [];
-    //     foreach ($estabelecimentos as $estabelecimento) {
-    //         $results[count($results)] = EstabelecimentoService::removeEstabelecimento($estabelecimento);
-    //     }
-    //     return $results;
-    // }
+        return $estabelecimento;
+    }
 }

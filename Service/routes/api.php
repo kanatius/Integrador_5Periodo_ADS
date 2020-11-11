@@ -33,3 +33,7 @@ Route::get("/buscarEstabelecimentosDisponiveis", [EstabelecimentoController::cla
 Route::get("/quartosDisponiveis", [EstabelecimentoController::class, "getQuartosDisponiveis"]);
 
 Route::get("/reservarQuarto", [ReservaController::class, "reservarQuarto"]);
+
+Route::get("/getInfoEstabelecimento", [EstabelecimentoController::class, "getInfoEstabelecimento"]);
+
+Route::get("/getInfoEstabelecimentos", [EstabelecimentoController::class, "getInfoEstabelecimentos"]);

@@ -21,18 +21,31 @@ class EstabelecimentoDAO extends Model
     // public static function getAllOrderedByNome(){
     //     return DB::table("estabelecimento")->select("id", "nome", "id_endereco", "id_tipo_de_estabelecimento")->orderBy("nome")->get();
     // }
-    //get id foreign key
-    // public static function getIdTipoDeEstabelecimento(Estabelecimento $estabelecimento){
-    //     $row = DB::table("estabelecimento")->select("id_tipo_de_estabelecimento")->where("id", $estabelecimento->getId())->first();
-    //     return $row->id_tipo_de_estabelecimento;
-    // }
-    // public static function getIdEndereco(Estabelecimento $estabelecimento){
-    //     $row = DB::table("estabelecimento")->select("id_endereco")->where("id", $estabelecimento->getId())->first();
-    //     return $row->id_endereco;
-    // }
     //get by foreign key
     public static function getByIdTipoDeEstabelecimento($id){
-        return  DB::table("estabelecimento")->select("id", "nome", "id_endereco", "id_tipo_de_estabelecimento")->where("id_tipo_de_estabelecimento", $id)->get();
+        return  DB::table("estabelecimento")
+        ->select("id", "nome", "id_endereco", "id_tipo_de_estabelecimento")
+        ->where("id_tipo_de_estabelecimento", $id)->get();
+    }
+    public static function getEstabelecimentosByIds($ids){
+        $query = DB::table("estabelecimento as est")
+        ->join("tipo_de_estabelecimento as te", "est.id_tipo_de_estabelecimento", "=", "te.id")
+        ->join("endereco as end", "end.id", "=", "est.id_endereco")
+        ->select(
+            "est.id as est_id", 
+            "est.nome as est_nome",
+            "te.id as tipoDeEstabelecimento_id", 
+            "te.nome as tipoDeEstabelecimento_nome",
+            "end.id as end_id",
+            "end.rua as end_rua",
+            "end.numero as end_numero",
+            "end.bairro as end_bairro",
+            "end.cidade as end_cidade",
+            "end.cidade as end_cidade"
+            )
+        ->whereIn("est.id", $ids);
+
+        return $query->get();
     }
     public static function getByIdEndereco($id){
         return DB::table("estabelecimento")->select("id", "nome", "id_endereco", "id_tipo_de_estabelecimento")->where("id_endereco", $id)->first();
@@ -64,19 +77,19 @@ class EstabelecimentoDAO extends Model
     //-------------- INSERT --------------//
 
     //-------------- UPDATE --------------//
-    public static function update_(Estabelecimento $estabelecimento){
+    // public static function update_(Estabelecimento $estabelecimento){
 
-        $dataEHoraAtual = Carbon::now()->format("d/m/Y H:i:s");
+    //     $dataEHoraAtual = Carbon::now()->format("d/m/Y H:i:s");
         
-        return DB::table("estabelecimento")->where("id", $estabelecimento->getId())->update(["nome" => $estabelecimento->getNome(), "id_endereco" => $estabelecimento->getEndereco()->getId(), "id_tipo_de_estabelecimento" => $estabelecimento->getTipoDeEstabelecimeto()->getId(), "updated_at" => $dataEHoraAtual]);
-    }
-    public static function updateAll($estabelecimentos){
-        $ids = [];
-        foreach($estabelecimentos as $estabelecimento){
-            $ids[count($ids)] = EstabelecimentoDAO::update_($estabelecimento);
-        }
-        return $ids;
-    }
+    //     return DB::table("estabelecimento")->where("id", $estabelecimento->getId())->update(["nome" => $estabelecimento->getNome(), "id_endereco" => $estabelecimento->getEndereco()->getId(), "id_tipo_de_estabelecimento" => $estabelecimento->getTipoDeEstabelecimeto()->getId(), "updated_at" => $dataEHoraAtual]);
+    // }
+    // public static function updateAll($estabelecimentos){
+    //     $ids = [];
+    //     foreach($estabelecimentos as $estabelecimento){
+    //         $ids[count($ids)] = EstabelecimentoDAO::update_($estabelecimento);
+    //     }
+    //     return $ids;
+    // }
     //-------------- UPDATE --------------//
 
     //-------------- REMOVE--------------//

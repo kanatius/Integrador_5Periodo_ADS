@@ -21,6 +21,8 @@ class EstabelecimentoController extends Controller
         $est = EstabelecimentoService::getEstabelecimentosDisponiveis($params["cidade"], $params["dataEntrada"], $params["dataSaida"]);
         return json_encode($est);
     }
+
+
     public function getQuartosDisponiveis(Request $request){
         $params = $request->input();
 
@@ -35,5 +37,39 @@ class EstabelecimentoController extends Controller
             "status" => true,
             "obj" => $datosEstabelecimetoMaisQuartosDisponiveis
             ]);
+    }
+
+    public function getInfoEstabelecimento(Request $request){
+        $params = $request->input();
+
+        if(isset($params["idEstabelecimento"])){
+            $vetorIds = [json_decode($params["idEstabelecimento"])];
+            return json_encode($this->searchDataEstabelecimentos($vetorIds));
+        }
+        return json_encode([
+            "status" => false,
+            "mensagem" => "erro"
+        ]);
+    }
+
+
+    public function getInfoEstabelecimentos(Request $request){
+        $params = $request->input();
+
+        if(isset($params["idsEstabelecimentos"])){
+            $vetorIds = json_decode($params["idsEstabelecimentos"]);
+            return json_encode([
+                "status" => true,
+                "obj" => json_encode($this->searchDataEstabelecimentos($vetorIds))
+            ]);
+        }
+        return json_encode([
+            "status" => false,
+            "mensagem" => "erro"
+        ]);
+    }
+
+    private function searchDataEstabelecimentos($vetorIds){
+        return EstabelecimentoService::getEstabelecimentosByIds($vetorIds);
     }
 }

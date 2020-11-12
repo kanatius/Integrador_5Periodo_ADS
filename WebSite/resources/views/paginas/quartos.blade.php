@@ -65,9 +65,8 @@
                         <hr/>
                         <div class="container propiedade-hotel-img">
                             <div class="row">
-
-                                <div class="col-sm-8">
-                                    <img src="../img/hotel1.jpg" class="img-fluid" alt="Responsive
+                                <div class="col-sm-8" style="padding-left: 0px;">
+                                    <img src="/img/sp.jpg" class="img-fluid" alt="Responsive
                                             image">
                                 </div>
                                 <div class="col-sm-4">

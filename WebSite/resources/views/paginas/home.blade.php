@@ -9,7 +9,7 @@
     <script src="https://kit.fontawesome.com/f8802530fc.js" crossorigin="anonymous"></script>
 
     @include('/componentes/includeBootstrapAndJquery')
-    
+
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.0/themes/base/jquery-ui.css" />
 
     <link rel="stylesheet" href="../css/inicioCss.css">
@@ -29,7 +29,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
-                <span>Seja Bem-Vindo, {{$usuario->getNome()}}!</span>
+                    <span>Seja Bem-Vindo, {{$usuario->getNome()}}!</span>
                     <ul class="navbar-nav ml-auto">
                         @include('/componentes/navbar/inicio')
                         @include('/componentes/navbar/minhasReservas')
@@ -49,7 +49,7 @@
                         <div class="row justify-content-center ">
                             <!-- Grid column -->
                             <div class="col-sm" id="cardPesquisa">
-                                
+
                                 <div class="card">
                                     <div class="">
                                         <br>
@@ -58,21 +58,23 @@
                                     <div class="card-body">
 
                                         <form action="/buscarEstabelecimentos">
-                                        
-                                            <div class="row">
+
+                                            <div class="row" style="text-align: left;">
                                                 <div class="col-sm-12 col-md-4 inputWithIcon form-group">
-                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                    <!-- <i class="fa fa-search" aria-hidden="true"></i> -->
+                                                    <label class="labelDescricaoInput">Cidade</label>
                                                     <input name="cidade" type="text" class="form-control" placeholder="Insira o nome da cidade ">
                                                 </div>
-                                                <div class="col-sm-6 col-md-3 inputWithIcon">
+                                                <div class="col-sm-6 col-md-3 inputWithIcon form-group">
                                                     <!-- <span><i class="far fa-calendar-check"></i></span> -->
+                                                    <label class="labelDescricaoInput">Check-in</label>
                                                     <input type="date" name="dataEntrada" class="datepicker form-control datas" placeholder="--/--/----">
                                                 </div>
-                                                <div class="col-sm-6 col-md-3 inputWithIcon">
+                                                <div class="col-sm-6 col-md-3 inputWithIcon form-group">
+                                                    <label class="labelDescricaoInput">Check-out</label>
                                                     <input type="date" name="dataSaida" class="datepicker form-control datas" placeholder="--/--/----">
                                                 </div>
-                                                <div class="col-sm-6 col-md-2" id="btn-pesquisa">
-
+                                                <div class="col-sm-6 col-md-2 form-group" id="btn-pesquisa">
                                                     <button class="btn btn-dark">Pesquisar</button>
                                                 </div>
                                             </div>
@@ -105,7 +107,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="card">
-                        <img class="card-img-top" src="../img/sp.jpg" alt="Card image cap">
+                        <img class="card-img-top" src="/img/sp.jpg" alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title">Hotéis mais luxuosos de São Paulo.</h5>
                             <p class="card-text">"São Paulo é conhecida como uma cidade totalmente urbana com arquitetura contemporânea, seus hotéis mostram o quão glamouroso esse município pode ser."</p>
@@ -115,7 +117,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="card">
-                        <img class="card-img-top" src="../img/porto-de-galinhas.jpg" alt="Card image cap" style="height: 260.987px;">
+                        <img class="card-img-top" src="/img/porto-de-galinhas.jpg" alt="Card image cap" style="height: 260.987px;">
                         <div class="card-body">
                             <h5 class="card-title">Os 5 lugares mais românticos do Brasil</h5>
                             <p class="card-text">Viva momentos incrivéis e marcantes nos lugares mais românticos do Brasil, seja pela natureza ou pela arquitetura,e colecione lindas memórias com o seu amor!</p>
@@ -129,7 +131,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="card">
-                        <img class="card-img-top" src="../img/parque.jpg" alt="Card image cap" style="height: 358.663px;">
+                        <img class="card-img-top" src="/img/parque.jpg" alt="Card image cap" style="height: 358.663px;">
                         <div class="card-body">
                             <h5 class="card-title">Pontos turísticos imperdíveis no Rio de Janeiro</h5>
                             <p class="card-text">"Se tem uma cidade que fica difícil montar um roteiro de passeios, tamanha a variedade de locais incríveis, essa cidade é o Rio."</p>
@@ -139,7 +141,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="card">
-                        <img class="card-img-top" src="../img/Pipa.jpg" alt="Card image cap">
+                        <img class="card-img-top" src="/img/Pipa.jpg" alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title"> Melhores Praias do Nordeste Brasileiro</h5>
                             <p class="card-text">"O Nordeste esbanja opções de praias para descansar, entrar em contato com a natureza e badalar na vida noturna."</p>

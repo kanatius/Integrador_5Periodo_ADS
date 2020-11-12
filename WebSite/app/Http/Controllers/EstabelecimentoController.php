@@ -10,6 +10,7 @@ use App\Models\TipoDeQuarto;
 use App\Providers\LoginService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use stdClass;
 
 class EstabelecimentoController extends Controller
 {
@@ -24,7 +25,6 @@ class EstabelecimentoController extends Controller
             $estDisponiveis = [];
 
             foreach($response["estabelecimentos"] as $estD){
-
                 $est = new Estabelecimento($estD["id"], $estD["nome"]);
                 $endObj = (object) $estD["endereco"];
                 $endereco = new Endereco($endObj->id, $endObj->rua, $endObj->numero,$endObj->bairro,$endObj->cidade,$endObj->estado);
@@ -53,6 +53,34 @@ class EstabelecimentoController extends Controller
         $dataEntrada = $params["dataEntrada"];
         $dataSaida = $params["dataSaida"];
 
+
+        $repEst = HTTP::get("http://localhost:7000/api/getInfoEstabelecimento",[
+            "idEstabelecimento" => $params["idEstabelecimento"]
+        ]);
+
+        $repEstObj = $repEst->json();
+
+        $estabelecimento = null;
+
+
+        if($repEstObj["status"] == true && !is_null($repEstObj["obj"])){
+
+            //converte o array json para objeto
+            $estObj = (object) json_decode($repEstObj["obj"]);
+
+            //cast array para obj
+            $endObj = (object) $estObj->endereco;
+            
+            //cast array para obj
+            $tObj = (object) $estObj->tipo_de_estabelecimento;
+
+            $estabelecimento = new Estabelecimento($estObj->id, $estObj->nome);
+            $end = new Endereco($endObj->id, $endObj->rua, $endObj->numero, $endObj->bairro, $endObj->cidade, $endObj->estado);
+            $tipo = new TipoDeEstabelecimento($tObj->id, $tObj->nome);
+            $estabelecimento->setEndereco($end);
+            $estabelecimento->setTipoDeEstabelecimento($tipo);
+        }
+
         $response = Http::get("http://localhost:7000/api/quartosDisponiveis",[
             "idEstabelecimento" => $params["idEstabelecimento"],
             "dataEntrada" => $dataEntrada,
@@ -60,17 +88,10 @@ class EstabelecimentoController extends Controller
         ]);
 
         $rep = $response->json();
-        if($rep["status"] == true){
-            $estObj = (object) $rep["obj"];
-            $endObj = (object) $estObj->endereco;
-            $tObj = (object) $estObj->tipo_de_estabelecimento;
-            $quartos = $estObj->quartosDisponiveis;
 
-            $estabelecimento = new Estabelecimento($estObj->id, $estObj->nome);
-            $end = new Endereco($endObj->id, $endObj->rua, $endObj->numero, $endObj->bairro, $endObj->cidade, $endObj->estado);
-            $tipo = new TipoDeEstabelecimento($tObj->id, $tObj->nome);
-            $estabelecimento->setEndereco($end);
-            $estabelecimento->setTipoDeEstabelecimento($tipo);
+        if($rep["status"] == true){
+            
+            $quartos = $rep["obj"];;
 
             $quartosVIP = [];
             $quartosNormais = [];
@@ -82,6 +103,8 @@ class EstabelecimentoController extends Controller
                 $q = new Quarto($quarto->id, $quarto->andar, $quarto->numero, $quarto->valor);         
                 $tq = new TipoDeQuarto($t->id, $t->nome);
                 $q->setTipoDeQuarto($tq);
+
+                //separa os quartos pelo tipo
                 if($t->id == 1)
                     $quartosNormais[count($quartosNormais)] = $q;
                 else if($t->id == 2)

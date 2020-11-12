@@ -32,10 +32,10 @@ class EstabelecimentoController extends Controller
                 "mensagem" => "Dados incompletos"
             ]);
 
-        $datosEstabelecimetoMaisQuartosDisponiveis =  EstabelecimentoService::getQuartosDisponiveis($params["idEstabelecimento"], $params["dataEntrada"], $params["dataSaida"]);
+        $availableRooms =  EstabelecimentoService::getQuartosDisponiveis($params["idEstabelecimento"], $params["dataEntrada"], $params["dataSaida"]);
         return json_encode([
             "status" => true,
-            "obj" => $datosEstabelecimetoMaisQuartosDisponiveis
+            "obj" => $availableRooms
             ]);
     }
 

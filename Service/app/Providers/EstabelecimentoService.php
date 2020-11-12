@@ -112,12 +112,6 @@ class EstabelecimentoService extends ServiceProvider
 
         $quartosDisponiveis = [];
 
-        $estabelecimento = EstabelecimentoService::getEstabelecimentoById($idEstabelecimento);
-        EstabelecimentoService::getDataEstabelecimento($estabelecimento);
-
-        unset($estabelecimento->id_endereco);
-        unset($estabelecimento->id_tipo_de_estabelecimento);
-
         $quartos = QuartoService::getQuartosByIdEstabelecimento($idEstabelecimento);
         foreach($quartos as $quarto){
             if(ReservaService::verifyDisponibilidade($quarto->id, $dataEntrada, $dataSaida)){
@@ -126,9 +120,7 @@ class EstabelecimentoService extends ServiceProvider
                 $quartosDisponiveis[count($quartosDisponiveis)] = $quarto;
             }
         }
-        $estabelecimento->quartosDisponiveis = $quartosDisponiveis;
-
-        return $estabelecimento;
+        return $quartosDisponiveis;
     }
 
     public static function convertRowForSending($row){

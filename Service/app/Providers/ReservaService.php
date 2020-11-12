@@ -126,6 +126,8 @@ class ReservaService extends ServiceProvider
     // {
     //     return ReservaDAO::getIdUsuario($reserva);
     // }
+
+    
     public static function reservarQuarto($idQuarto, $dataEntrada, $dataSaida, $usuario)
     {
 
@@ -161,7 +163,7 @@ class ReservaService extends ServiceProvider
         $de = new DateTime($dataEntrada);
         $ds = new DateTime($dataSaida);
         $intervalo = date_diff($ds, $de);
-        $qtdDias = $intervalo->d + 1;
+        $qtdDias = $intervalo->d;
         $valorDoQuarto = QuartoService::getQuatoById($idQuarto)->valor;
         return $qtdDias * $valorDoQuarto;
     }

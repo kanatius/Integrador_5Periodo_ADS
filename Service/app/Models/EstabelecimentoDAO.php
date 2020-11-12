@@ -41,7 +41,7 @@ class EstabelecimentoDAO extends Model
             "end.numero as end_numero",
             "end.bairro as end_bairro",
             "end.cidade as end_cidade",
-            "end.cidade as end_cidade"
+            "end.estado as end_estado"
             )
         ->whereIn("est.id", $ids);
 

@@ -44,7 +44,20 @@ class EstabelecimentoController extends Controller
 
         if(isset($params["idEstabelecimento"])){
             $vetorIds = [json_decode($params["idEstabelecimento"])];
-            return json_encode($this->searchDataEstabelecimentos($vetorIds));
+
+            $estabelecimento = null;
+
+            $est = $this->searchDataEstabelecimentos($vetorIds);
+
+            //se recebeu algum objeto, adiciona
+            if(count($est) > 0){
+                $estabelecimento = $est[0];
+            }
+            
+            return json_encode([
+                "status" => true,
+                "obj" => json_encode($estabelecimento)
+            ]);
         }
         return json_encode([
             "status" => false,

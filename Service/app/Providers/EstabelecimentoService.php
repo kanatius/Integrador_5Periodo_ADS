@@ -56,10 +56,7 @@ class EstabelecimentoService extends ServiceProvider
             $estabelecimentos[count($estabelecimentos)] = EstabelecimentoService::convertRowForSending($row);
         }
 
-        return [
-            "status" => true,
-            "estabelecimentos" => $estabelecimentos
-        ];
+        return $estabelecimentos;
     }
 
     public static function getEstabelecimentosDisponiveis($cidade, $dataEntrada, $dataSaida){
@@ -98,8 +95,7 @@ class EstabelecimentoService extends ServiceProvider
         }
         return false;
     }
-    public static function getEstabelecimentosByCidade($cidade)
-    {
+    public static function getEstabelecimentosByCidade($cidade){
         $estabelecimentos = [];
         $enderecos = EnderecoService::getEnderecosByCidade($cidade); //pega os endereços cadastrados
 
@@ -142,7 +138,8 @@ class EstabelecimentoService extends ServiceProvider
             "rua" => $row->end_rua,
             "numero" => $row->end_numero,
             "bairro" => $row->end_bairro,
-            "cidade" => $row->end_cidade
+            "cidade" => $row->end_cidade,
+            "estado" => $row->end_estado
         ];
 
         $tipo_de_estabelecimento = [

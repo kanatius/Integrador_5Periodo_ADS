@@ -43,9 +43,9 @@
 
             <div class="row">
                 @if(isset($mensagem))
-                    @if(!is_null($mensagem))
-                        @include('/componentes/alertBox')
-                    @endif
+                @if(!is_null($mensagem))
+                @include('/componentes/alertBox')
+                @endif
                 @endif
                 <div class="col-lg-12 text-center info-geral-reservas">
 
@@ -100,8 +100,18 @@
                                 $statusPag = $reserva["situacao_de_pagamento"]["nome"];
                                 $dataEntrada = new DateTime($reserva["data_entrada"]);
                                 $dataSaida = new DateTime($reserva["data_saida"]);
+                                $dias = date_diff($dataSaida, $dataEntrada)->d;
                                 ?>
                                 <tr class="items">
+                                    <td hidden class="dados">
+                                        <input class="id-reserva" value=<?php echo $reserva["id"] ?>>
+                                        <input class="nome-estabelecimento" value= '<?php echo $reserva["quarto"]["estabelecimento"]["nome"]?>'>
+                                        <input class="data-checkin" value=<?php echo $dataEntrada->format("d/m/Y") ?>>
+                                        <input class="data-checkout" value=<?php echo $dataSaida->format("d/m/Y") ?>>
+                                        <input class="dias-estadia" value=<?php echo $dias ?>>
+                                        <input class="valor-estadia" value=<?php echo $reserva["quarto"]["valor"] ?>>
+                                        <input class="valor-total" value=<?php echo $reserva["valor_a_pagar"] ?>>
+                                    </td>
                                     <td class="item">{{$reserva["id"]}}</td>
                                     <td class="item">{{$reserva["quarto"]["estabelecimento"]["nome"]}}</td>
                                     <td class="item">{{$dataEntrada->format("d/m/Y")}}</td>
@@ -165,7 +175,7 @@
                         <div class="modal-dialog modal-dialog-centered" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                                    <h5 class="modal-title" id="exampleModalLongTitle"></h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -177,23 +187,25 @@
                                             <tbody>
                                                 <tr>
                                                     <td><strong>Código</strong></td>
-                                                    <td> </td>
-                                                    <td>02051</td>
+                                                    <td></td>
+                                                    <td id="id_"> </td>
+
                                                 </tr>
                                                 <tr>
                                                     <td><strong>Estabelecimento</strong></td>
-                                                    <td> </td>
-                                                    <td>descrição do hotel/pousada</td>
+                                                    <td></td>
+                                                    <td id="nome_estabelecimento"></td>
                                                 </tr>
                                                 <tr>
                                                     <td><strong>Diárias</strong></td>
-                                                    <td> </td>
-                                                    <td>Qtd. dias de hospedagem</td>
+                                                    <td></td>
+                                                    <td id="dias_estadia"></td>
                                                 </tr>
                                                 <tr>
                                                     <td><strong>Estadia</strong></td>
-                                                    <td> </td>
-                                                    <td>Data de entrada data de saida</td>
+                                                    <td></td>
+                                                    <td id="checkin"></td>
+                                                    <td id="checkout"></td>
                                                 </tr>
                                                 <tr>
                                                     <td><strong>Quantidade de pessoas</strong></td>
@@ -207,18 +219,18 @@
 
                                     </div>
                                     <div class="col-md-4 float-right">
-                                        <img src="../img/hotel1.jpg" alt="teste" class="img-thumbnail">
+                                        <i class="fas fa-tags"></i>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
                                     <div class="text-right m-3 float-right col-md-3">
                                         Estadia: <br />
-                                        <span class="h3 text-muted"><strong> R$50,00 </strong></span></span>
+                                        <span class="h3 text-muted" id="valor_estadia"></span>
                                     </div>
 
                                     <div class="text-right m-3 float-right col-md-3">
                                         Total: <br />
-                                        <span class="h3 text-muted"><strong>R$100,00</strong></span>
+                                        <span class="h3 text-muted" id="valor_total"></span>
                                     </div>
                                 </div>
                             </div>
@@ -227,6 +239,7 @@
 
 
                     <!-- ----------- -->
+
 
                 </div>
 
@@ -237,12 +250,27 @@
 
     <script>
         $(function() {
+            $('.items').on("click", function() {
+                var tdDados = $(this).find(".dados");
+ 
+                var id =  tdDados.find(".id-reserva").val();
+                var nomeHotel = tdDados.find(".nome-estabelecimento").val();
+                var dias = tdDados.find(".dias-estadia").val();
+                var checkin = tdDados.find(".data-checkin").val();
+                var checkout = tdDados.find(".data-checkout").val();
+                var valorEstadia = tdDados.find(".valor-estadia").val();
+                var valorTotal = tdDados.find(".valor-total").val();
 
-            //Função que abre modal com informações da linha
-            $('.item').on('click', function(event) {
-                event.preventDefault();
+                $("#id_").html(id);
+                $("#nome_estabelecimento").html(nomeHotel);
+                $("#dias_estadia").html(dias);
+                $("#checkin").html(checkin + " ");
+                $("#checkout").html(checkout);
+                $("#valor_estadia").html(valorEstadia);
+                $("#valor_total").html(valorTotal);
+
                 $('#myModal').modal('show');
-            })
+            });
 
             //função para a pesquisa de reservas pelo nome do hotel
             $('#input-search').on('keyup', function() {
@@ -252,8 +280,6 @@
                     return rex.test($(this).text());
                 }).show();
             });
-
-
         });
     </script>
 </body>

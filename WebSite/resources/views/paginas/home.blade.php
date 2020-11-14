@@ -68,11 +68,11 @@
                                                 <div class="col-sm-6 col-md-3 inputWithIcon form-group">
                                                     <!-- <span><i class="far fa-calendar-check"></i></span> -->
                                                     <label class="labelDescricaoInput">Check-in</label>
-                                                    <input type="date" name="dataEntrada" class="datepicker form-control datas" placeholder="--/--/----">
+                                                    <input type="date" name="dataEntrada" id="datePicker1" class="datepicker form-control datas" placeholder="--/--/----">
                                                 </div>
                                                 <div class="col-sm-6 col-md-3 inputWithIcon form-group">
                                                     <label class="labelDescricaoInput">Check-out</label>
-                                                    <input type="date" name="dataSaida" class="datepicker form-control datas" placeholder="--/--/----">
+                                                    <input type="date" name="dataSaida" id="datePicker2" class="datepicker form-control datas" placeholder="--/--/----">
                                                 </div>
                                                 <div class="col-sm-6 col-md-2 form-group" id="btn-pesquisa">
                                                     <button class="btn btn-dark">Pesquisar</button>
@@ -155,6 +155,50 @@
     </section>
 
     @include('/componentes/footer')
+
+    <script>
+        $(function() {
+
+            <?php 
+                $dataAtual = new DateTime();
+                $plusOneDay = new DateTime();
+                
+                //adiciona 1 dia
+                $plusOneDay->add(new DateInterval("P1D"));
+            ?>
+
+            var dp1 = document.getElementById("datePicker1");
+            var dp2 = document.getElementById("datePicker2");
+
+            //desabilita dias antes do dia atual
+            dp1.min = "<?php echo $dataAtual->format("yy-m-d");?>";
+
+            //desabilita dias antes do dia atual + 1 dia
+            dp2.min = "<?php echo $plusOneDay->format("yy-m-d");?>"; 
+
+            //atualiza o segundo datepicker de acordo com o primero - minimo 1 dia depois
+            dp1.onchange = function(){
+
+                //pega as str do valor que consta no datepicker
+                dtStr = dp1.value;
+
+                //cria um obj date
+                date = new Date(dtStr);
+
+                //adiciona um dia
+                date.setDate(date.getDate() + 1);
+
+                //set segundo datepicker
+                document.getElementById("datePicker2").min = date.toISOString().split("T")[0];  
+            };
+
+            //chama a função se já tiver algum valor preenchido pelos cookies
+            if(dp1.value != "")
+                dp1.onchange();
+
+        });
+
+    </script>
 
 </body>
 

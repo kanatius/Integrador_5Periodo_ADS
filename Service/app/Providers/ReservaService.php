@@ -117,16 +117,6 @@ class ReservaService extends ServiceProvider
     //     return false;
     // }
 
-
-    // public static function getIdQuarto(Reserva $reserva)
-    // {
-    //     return ReservaDAO::getIdQuarto($reserva);
-    // }
-    // public static function getIdUsuario(Reserva $reserva)
-    // {
-    //     return ReservaDAO::getIdUsuario($reserva);
-    // }
-
     
     public static function reservarQuarto($idQuarto, $dataEntrada, $dataSaida, $usuario)
     {
@@ -137,6 +127,13 @@ class ReservaService extends ServiceProvider
                     "mensagem" => "Usuário não autenticado!"
                 ]);
 
+        if(new DateTime($dataSaida) <= new DateTime($dataEntrada)){
+            return json_encode([
+                "status" => false,
+                "mensagem" => "Data de check out deve ser após data de check in"
+            ]);
+        }    
+        
         if(ReservaService::verifyDisponibilidade($idQuarto, $dataEntrada, $dataSaida)){
             $reserva = new stdClass;
             $reserva->id_situacao_de_pagamento = SituacaoDePagamentoService::getSituacaoPagamentoAguardando()->id;

@@ -109,7 +109,7 @@
                                     <td class="item tdNome"></td>
                                     <td class="item tdCheckIn"></td>
                                     <td class="item tdCheckOut"></td>
-                                    <td><span class="badge badge-primary"></span></td>
+                                    <td class="item tdStatus"><span class="badge badge-primary"></span></td>
                                     <td>
                                         <div class="btn-group">
                                             <button class="btn btn-light btn-sm" type="button">
@@ -127,46 +127,6 @@
                                     </td>
                                 </tr>
                                 <!-- SKELETO DA LINHA -->
-<!-- 
-                                @foreach($reservas as $reserva)
-                                <?php
-                                $statusPag = $reserva["situacao_de_pagamento"]["nome"];
-                                $dataEntrada = new DateTime($reserva["data_entrada"]);
-                                $dataSaida = new DateTime($reserva["data_saida"]);
-                                $dias = date_diff($dataSaida, $dataEntrada)->d;
-                                ?>
-                                <tr class="items">
-                                    <td hidden class="dados">
-                                        <input class="id-reserva" value=<?php echo $reserva["id"] ?>>
-                                        <input class="nome-estabelecimento" value='<?php echo $reserva["quarto"]["estabelecimento"]["nome"] ?>'>
-                                        <input class="data-checkin" value=<?php echo $dataEntrada->format("d/m/Y") ?>>
-                                        <input class="data-checkout" value=<?php echo $dataSaida->format("d/m/Y") ?>>
-                                        <input class="dias-estadia" value=<?php echo $dias ?>>
-                                        <input class="valor-estadia" value=<?php echo $reserva["quarto"]["valor"] ?>>
-                                        <input class="valor-total" value=<?php echo $reserva["valor_a_pagar"] ?>>
-                                    </td>
-                                    <td class="item">{{$reserva["id"]}}</td>
-                                    <td class="item">{{$reserva["quarto"]["estabelecimento"]["nome"]}}</td>
-                                    <td class="item">{{$dataEntrada->format("d/m/Y")}}</td>
-                                    <td class="item">{{$dataSaida->format("d/m/Y")}}</td>
-                                    <td><span class="badge <?php echo $classeStatusPagamento[$statusPag] ?>">{{$statusPag}}</span></td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <button class="btn btn-light btn-sm" type="button">
-                                                <i class="fas fa-bars"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-sm btn-light dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <span class="sr-only">Dropdown</span>
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                <button class="dropdown-item" type="button">Pagar</button>
-                                                <button class="dropdown-item" type="button">Cancelar</button>
-                                                <button class="dropdown-item" type="button">Something else here</button>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                @endforeach -->
                             </tbody>
                         </table>
 

@@ -26,6 +26,8 @@ Route::post("/login", [UsuarioController::class, 'getUser']);
 
 Route::post("/reservas", [ReservaController::class, 'getUserReservations']);
 
+Route::post("/reservasQtd", [ReservaController::class, 'getUserReservationsQtd']);
+
 Route::post("/cadastrarUsuario", [UsuarioController::class, "cadastrarUsuario"]);
 
 Route::get("/buscarEstabelecimentosDisponiveis", [EstabelecimentoController::class, "buscarEstabelecimentosDisponiveis"]);

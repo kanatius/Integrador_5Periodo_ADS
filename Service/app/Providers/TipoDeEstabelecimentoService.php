@@ -7,6 +7,7 @@ use App\Models\TipoDeEstabelecimentoDAO;
 use App\Models\Estabelecimento;
 
 use Illuminate\Support\ServiceProvider;
+use stdClass;
 
 class TipoDeEstabelecimentoService extends ServiceProvider
 {
@@ -31,10 +32,16 @@ class TipoDeEstabelecimentoService extends ServiceProvider
     }
 
     public static function getPousada(){
-        return new TipoDeEstabelecimento(1, "Pousada");
+        $te = new stdClass;
+        $te->id = 1;
+        $te->nome = "Pousada";
+        return $te;
     }
     public static function getHotel(){
-        return new TipoDeEstabelecimento(2, "Hotel");
+        $te = new stdClass;
+        $te->id = 2;
+        $te->nome = "Hotel";
+        return $te;
     }
     public static function getTipoDeEstabelecimentoById($id){
         return TipoDeEstabelecimentoDAO::findById($id);

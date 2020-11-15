@@ -65,6 +65,19 @@ class ReservaService extends ServiceProvider
         return $reservasObj;
     }
 
+    public static function getQtdReservasByUserId($userId, $offset, $qtd)
+    {
+        $reservas = ReservaDAO::getQtdReservasByIdUsuario($userId, $offset, $qtd);
+
+        $reservasObj = [];
+
+        foreach ($reservas as $reserva) {
+          array_push($reservasObj,  ReservaService::getDataReserva($reserva));
+        }
+        return $reservasObj;
+    }
+
+
     public static function getReservasById($id)
     {
         return ReservaDAO::findById($id);

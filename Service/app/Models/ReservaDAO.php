@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
@@ -19,8 +18,13 @@ class ReservaDAO extends Model
     }
     // get by id foreign key
     public static function getReservasByIdUsuario($id){
-        return DB::table("reserva")->where("id_usuario", $id)->orderBy("data_saida", "desc")->get();
+        return DB::table("reserva")->where("id_usuario", $id)->orderBy("created_at", "desc")->get();
     }
+
+    public static function getQtdReservasByIdUsuario($id, $offset, $qtd){
+        return DB::table("reserva")->where("id_usuario", $id)->offset($offset)->limit($qtd)->orderBy("created_at", "desc")->get();
+    }
+
     public static function getReservasByIdQuarto($id){
         return DB::table("reserva")->where("id_quarto", $id)->get();
     }

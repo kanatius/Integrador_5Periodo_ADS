@@ -8,6 +8,31 @@ use Illuminate\Support\Facades\Http;
 
 class ReservaController extends Controller
 {
+    //função para ser usada com ajax
+    public function getReservas(Request $request){
+
+        if(!LoginService::usuariosIsConnected())
+            return json_encode([]);
+
+        $usuario = LoginService::getUsuarioLogadoWithToken();
+
+        $params = $request->input();
+        
+        $response = Http::post("http://localhost:7000/api/reservasQtd", [
+            "userId" => $usuario->getId(),
+            "userToken" => $usuario->getToken(),
+            "offset" => $params["offset"],
+            "qtd" => $params["qtd"]
+        ]);
+
+        if($response["status"] == true){
+            $reservas = $response["obj"];
+            return json_encode($reservas);
+        }
+
+        return json_encode($params);
+    }
+
     public function acessarMinhasReservas(Request $request){
         
         if(!LoginService::usuariosIsConnected()){

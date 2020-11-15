@@ -61,3 +61,6 @@ Route::post("/cadastrarUsuario", [UsuarioController::class, 'cadastrarUsuario'])
 // Route::get("/cancelarReserva", ['uses' => 'ReservaController@cancelarReserva']);
 
 Route::get("/reservarQuarto", [ReservaController::class , 'reservarQuarto']);
+
+//função para ser usada com ajax passando offset e qtd (quantidade de reservas)
+Route::get("/getReservas", [ReservaController::class , 'getReservas']);

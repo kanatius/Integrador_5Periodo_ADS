@@ -2,9 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\Estabelecimento;
 use App\Models\EstabelecimentoDAO;
-use App\Models\Quarto;
 use DateTime;
 
 use Illuminate\Support\ServiceProvider;

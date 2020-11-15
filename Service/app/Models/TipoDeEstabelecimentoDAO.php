@@ -20,7 +20,7 @@ class TipoDeEstabelecimentoDAO extends Model
     //-------------- GET --------------//
 
     //-------------- INSERT --------------//
-    public static function insert(TipoDeEstabelecimento $tipoDeEstabelecimento){
+    public static function insert($tipoDeEstabelecimento){
         $dados = [
             "nome" => $tipoDeEstabelecimento->getNome(),
             "created_at" => Carbon::now(),

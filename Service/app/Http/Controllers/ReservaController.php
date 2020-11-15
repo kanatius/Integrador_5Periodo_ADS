@@ -8,24 +8,43 @@ use Illuminate\Http\Request;
 
 class ReservaController extends Controller
 {
-    public function getUserReservations(Request $request){
+    public function getUserReservations(Request $request)
+    {
 
         $params = $request->input();
 
-        if(!AutenticacaoService::verifyToken($params["userId"], $params["userToken"]))
+        if (!AutenticacaoService::verifyToken($params["userId"], $params["userToken"]))
             return json_encode(null); //se o token inserido não for o do usuário, retorna null
 
-        
+
         $reservas = ReservaService::getReservasByUserId($params["userId"]);
 
         return json_encode($reservas);
     }
 
-    public function reservarQuarto(Request $request){
+    public function getUserReservationsQtd(Request $request)
+    {
+        $params = $request->input();
+
+        if (!AutenticacaoService::verifyToken($params["userId"], $params["userToken"]))
+            return json_encode(null); //se o token inserido não for o do usuário, retorna null
+
+
+        $reservas = ReservaService::getQtdReservasByUserId($params["userId"], $params["offset"], $params["qtd"]);
+
+        return json_encode([
+            "status" => true,
+            "obj" => $reservas
+        ]);
+    }
+
+
+    public function reservarQuarto(Request $request)
+    {
 
         $params = $request->input();
 
-        if(!(isset($params["idQuarto"]) && isset($params["dataEntrada"]) && isset($params["dataSaida"]) && isset($params["usuario"]["id"]) && isset($params["usuario"]["token"])))
+        if (!(isset($params["idQuarto"]) && isset($params["dataEntrada"]) && isset($params["dataSaida"]) && isset($params["usuario"]["id"]) && isset($params["usuario"]["token"])))
             return json_encode([
                 "status" => false,
                 "mensagem" => "Dados incompletos"

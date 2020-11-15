@@ -94,6 +94,40 @@
                                     "Cancelado" => "badge-danger"
                                 ];
                                 ?>
+                                <!-- SKELETO DA LINHA -->
+                                <tr id="itemListTableSkeleton" hidden>
+                                    <td class="dados" hidden>
+                                        <input class="id-reserva">
+                                        <input class="nome-estabelecimento">
+                                        <input class="data-checkin">
+                                        <input class="data-checkout">
+                                        <input class="dias-estadia">
+                                        <input class="valor-estadia">
+                                        <input class="valor-total">
+                                    </td>
+                                    <td class="item tdIdReserva"></td>
+                                    <td class="item tdNome"></td>
+                                    <td class="item tdCheckIn"></td>
+                                    <td class="item tdCheckOut"></td>
+                                    <td><span class="badge badge-primary"></span></td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button class="btn btn-light btn-sm" type="button">
+                                                <i class="fas fa-bars" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-light dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <span class="sr-only">Dropdown</span>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <button class="dropdown-item" type="button">Pagar</button>
+                                                <button class="dropdown-item" type="button">Cancelar</button>
+                                                <button class="dropdown-item" type="button">Something else here</button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- SKELETO DA LINHA -->
+<!-- 
                                 @foreach($reservas as $reserva)
                                 <?php
                                 $statusPag = $reserva["situacao_de_pagamento"]["nome"];
@@ -132,9 +166,11 @@
                                         </div>
                                     </td>
                                 </tr>
-                                @endforeach
+                                @endforeach -->
                             </tbody>
                         </table>
+
+
                         <!-- Visualizar mais reservas -->
                         <div id="carregar-mais-div">
                             <div class="col text-center">
@@ -142,8 +178,10 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Modal -->
 
+                    <script src="/js/btnCarregarMais.js"></script>
+
+                    <!-- Modal -->
                     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                             <div class="modal-content">
@@ -209,8 +247,6 @@
                             </div>
                         </div>
                     </div>
-
-
                     <!-- ----------- -->
                 </div>
 
@@ -220,8 +256,7 @@
     @include('componentes/footer')
 
     <script>
-        $(function() {
-            $('.items').on("click", function() {
+        showModal = function() {
                 var tdDados = $(this).find(".dados");
 
                 var id = tdDados.find(".id-reserva").val();
@@ -241,7 +276,10 @@
                 $("#valor_total").html(valorTotal);
 
                 $('#myModal').modal('show');
-            });
+            };
+
+        $(function() {
+            $('.items').on("click", showModal);            
 
             //função para a pesquisa de reservas pelo nome do hotel
             $('#input-search').on('keyup', function() {

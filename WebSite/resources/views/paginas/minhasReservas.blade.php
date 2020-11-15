@@ -48,8 +48,7 @@
                 @endif
                 @endif
                 <div class="col-lg-12 text-center info-geral-reservas">
-
-                    <div class="container ">
+                    <div class="container" style="margin-bottom: 20px">
                         <div class="row">
                             <h4 style="color: #ff5800; " class="float-left m-3"> <i class="fas fa-briefcase"></i> Reservas <small class="font-weight-light" style="color: rgb(245 141
                                     78);"> - click na reserva para mais detalhes</small>
@@ -105,7 +104,7 @@
                                 <tr class="items">
                                     <td hidden class="dados">
                                         <input class="id-reserva" value=<?php echo $reserva["id"] ?>>
-                                        <input class="nome-estabelecimento" value= '<?php echo $reserva["quarto"]["estabelecimento"]["nome"]?>'>
+                                        <input class="nome-estabelecimento" value='<?php echo $reserva["quarto"]["estabelecimento"]["nome"] ?>'>
                                         <input class="data-checkin" value=<?php echo $dataEntrada->format("d/m/Y") ?>>
                                         <input class="data-checkout" value=<?php echo $dataSaida->format("d/m/Y") ?>>
                                         <input class="dias-estadia" value=<?php echo $dias ?>>
@@ -136,39 +135,13 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <!-- Ainda não esta implementado essa páginação -->
-                        <div class="col-sm-12 ">
-                            <div class="container">
-                                <div class="paginacao float-left"><strong>Mostrando 1 até 6 </strong></div>
-                                <div class="float-right paginacao">
-                                    <nav aria-label="Page navigation example ">
-                                        <ul class="pagination">
-                                            <li class="page-item">
-                                                <a class="page-link" href="#" aria-label="Previous">
-                                                    <span aria-hidden="true">&laquo;</span>
-                                                    <span class="sr-only">Previous</span>
-                                                </a>
-                                            </li>
-                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                            <li class="page-item">
-                                                <a class="page-link" href="#" aria-label="Next">
-                                                    <span aria-hidden="true">&raquo;</span>
-                                                    <span class="sr-only">Next</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div>
+                        <!-- Visualizar mais reservas -->
+                        <div id="carregar-mais-div">
+                            <div class="col text-center">
+                                <button type="button" id="carregar-mais-btn" class="btn btn-block btn-light rounded-0"><i class="fas fa-chevron-down"></i></button>
                             </div>
-
                         </div>
-
-
-
                     </div>
-
                     <!-- Modal -->
 
                     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -239,8 +212,6 @@
 
 
                     <!-- ----------- -->
-
-
                 </div>
 
             </div>
@@ -252,8 +223,8 @@
         $(function() {
             $('.items').on("click", function() {
                 var tdDados = $(this).find(".dados");
- 
-                var id =  tdDados.find(".id-reserva").val();
+
+                var id = tdDados.find(".id-reserva").val();
                 var nomeHotel = tdDados.find(".nome-estabelecimento").val();
                 var dias = tdDados.find(".dias-estadia").val();
                 var checkin = tdDados.find(".data-checkin").val();

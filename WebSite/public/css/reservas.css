@@ -214,6 +214,19 @@ tbody > tr {
     background-color: #ea4c89
 }
 
+#carregar-mais-div div{
+    padding: 0px;
+}
+#carregar-mais-div{
+    padding: 0px;
+}
+#carregar-mais-btn{
+    background-color: white;
+    border: 0px solid black;
+}
+#carregar-mais-btn:hover{
+    background-color: #f2f2f2;
+}
 @media (max-width:767px) {
     .social-icons li.title {
         display: block;

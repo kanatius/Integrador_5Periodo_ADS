@@ -46,19 +46,10 @@ class ReservaController extends Controller
         if(isset($params["mensagem"])){
             $mensagem = json_decode($params["mensagem"]);   
         }
-
-        $usuario = LoginService::getUsuarioLogadoWithToken();
-
-        $response = Http::post("http://localhost:7000/api/reservas", [
-            "userId" => $usuario->getId(),
-            "userToken" => $usuario->getToken()
-        ]);
-        $reservas = $response->json();
         
         $usuario = LoginService::getUsuarioLogado();
 
         return view('/paginas/minhasReservas')
-            ->with(compact('reservas'))
             ->with(compact('usuario'))
             ->with(compact('mensagem'));
     }

@@ -13,13 +13,26 @@ class ReservaController extends Controller
 
         $params = $request->input();
 
+        if(!isset($params["userId"]) || !isset($params["userToken"])){
+            return json_encode([
+                "status" => false,
+                "mensagem" => "Dados incompletos"
+            ]);
+        };//retirn dados icompletos se não tiver as variáveis userId e userToken
+
         if (!AutenticacaoService::verifyToken($params["userId"], $params["userToken"]))
-            return json_encode(null); //se o token inserido não for o do usuário, retorna null
+            return json_encode([
+                "status" => false,
+                "mensagem" => "Usuário não autenticado"
+            ]); //se o token inserido não for o do usuário, retorna null
 
 
         $reservas = ReservaService::getReservasByUserId($params["userId"]);
-
-        return json_encode($reservas);
+        
+        return json_encode([
+            "status" => true,
+            "obj" => $reservas
+        ]);
     }
 
     public function getUserReservationsQtd(Request $request)
@@ -27,7 +40,10 @@ class ReservaController extends Controller
         $params = $request->input();
 
         if (!AutenticacaoService::verifyToken($params["userId"], $params["userToken"]))
-            return json_encode(null); //se o token inserido não for o do usuário, retorna null
+        return json_encode([
+            "status" => false,
+            "mensagem" => "Usuário não autenticado"
+        ]); //se o token inserido não for o do usuário, retorna null
 
 
         $reservas = ReservaService::getQtdReservasByUserId($params["userId"], $params["offset"], $params["qtd"]);

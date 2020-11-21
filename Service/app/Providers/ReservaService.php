@@ -34,7 +34,6 @@ class ReservaService extends ServiceProvider
 
     public static function getDataReserva($reserva)
     {
-
         $situacaoDePagamento = SituacaoDePagamentoService::getSituacaoByIdReserva($reserva->id_situacao_de_pagamento);
         $quarto = QuartoService::getQuatoById($reserva->id_quarto);
         $tipoDeQuarto = TipoDeQuartoService::getTipoDeQuartoById($quarto->id_tipo_de_quarto);
@@ -42,6 +41,11 @@ class ReservaService extends ServiceProvider
 
         $quarto->tipo_de_quarto = $tipoDeQuarto;
         $quarto->estabelecimento = $estabelecimento;
+
+        unset($quarto->id_tipo_de_quarto);
+        unset($quarto->id_estabelecimento);
+        unset($estabelecimento->id_tipo_de_estabelecimento);
+        unset($estabelecimento->id_endereco);
 
         return (object)[
             "id" => $reserva->id,
@@ -60,7 +64,8 @@ class ReservaService extends ServiceProvider
         $reservasObj = [];
 
         foreach ($reservas as $reserva) {
-          array_push($reservasObj,  ReservaService::getDataReserva($reserva));
+            $resAux = ReservaService::getDataReserva($reserva);
+            array_push($reservasObj, $resAux);
         }
         return $reservasObj;
     }

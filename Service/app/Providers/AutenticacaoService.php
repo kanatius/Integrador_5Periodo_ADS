@@ -28,6 +28,8 @@ class AutenticacaoService extends ServiceProvider
 
     public static function verifyToken($userId, $userToken){
         $userBD = UsuarioService::getUsuarioById($userId);
-        return ($userToken == $userBD->token) ? true : false; //retorna true se o token inserido for igual ao que consta no banco
+        if(!is_null($userBD))
+            return ($userToken == $userBD->token) ? true : false; //retorna true se o token inserido for igual ao que consta no banco
+        return false;
     }
 }

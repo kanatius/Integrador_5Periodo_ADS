@@ -5,6 +5,9 @@ convertDateToStringBR = function (date){
 }
 
 buscarReservas = function (offset, qtd) {
+    
+    $("#carregar-mais-btn").prop("disabled", true); //desativa button
+
     $.get("http://localhost:8000/getReservas", {
         offset: offset, qtd: qtd
     }, function (msg) {
@@ -97,7 +100,9 @@ buscarReservas = function (offset, qtd) {
             $("#tb-reservas").children("tbody").append(trReserva);
         });
 
-        console.log(reservas.length, qtd);
+        $("#carregar-mais-btn").prop("disabled", false); //reativa button
+
+        // console.log(reservas.length, qtd);
 
         if(reservas.length < qtd){
             $("#carregar-mais-btn").hide();

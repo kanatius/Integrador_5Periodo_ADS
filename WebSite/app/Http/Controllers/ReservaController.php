@@ -62,13 +62,12 @@ class ReservaController extends Controller
         
         $usuario = LoginService::getUsuarioLogadoWithToken();
 
-        $response = Http::get("http://localhost:7000/api/reservarQuarto", [
+        $response = Http::post("http://localhost:7000/api/reservarQuarto", [
            "idQuarto" =>  $params["idQuarto"],
            "dataEntrada" => $params["dataEntrada"],
            "dataSaida" => $params["dataSaida"],
-           "usuario" => ["id" => $usuario->getId(),
-                         "token" => $usuario->getToken()
-                        ]
+           "usuarioId" => $usuario->getId(),
+           "usuarioToken" => $usuario->getToken()
         ]);
         $rep = $response->json();
         

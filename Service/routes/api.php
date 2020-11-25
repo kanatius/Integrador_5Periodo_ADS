@@ -34,7 +34,7 @@ Route::get("/buscarEstabelecimentosDisponiveis", [EstabelecimentoController::cla
 
 Route::get("/quartosDisponiveis", [EstabelecimentoController::class, "getQuartosDisponiveis"]);
 
-Route::get("/reservarQuarto", [ReservaController::class, "reservarQuarto"]);
+Route::post("/reservarQuarto", [ReservaController::class, "reservarQuarto"]);
 
 Route::get("/getInfoEstabelecimento", [EstabelecimentoController::class, "getInfoEstabelecimento"]);
 

@@ -136,10 +136,10 @@ class ReservaService extends ServiceProvider
     // }
 
     
-    public static function reservarQuarto($idQuarto, $dataEntrada, $dataSaida, $usuario)
+    public static function reservarQuarto($idQuarto, $dataEntrada, $dataSaida, $usuarioId, $usuarioToken)
     {
 
-        if(!AutenticacaoService::verifyToken($usuario["id"], $usuario["token"]))
+        if(!AutenticacaoService::verifyToken($usuarioId, $usuarioToken))
                 return json_encode([
                     "status" => false,
                     "mensagem" => "Usuário não autenticado!"
@@ -157,7 +157,7 @@ class ReservaService extends ServiceProvider
             $reserva->id_situacao_de_pagamento = SituacaoDePagamentoService::getSituacaoPagamentoAguardando()->id;
             
             $reserva->id_quarto = $idQuarto;
-            $reserva->id_usuario = $usuario["id"];
+            $reserva->id_usuario = $usuarioId;
             $reserva->data_entrada = $dataEntrada;
             $reserva->data_saida = $dataSaida; 
             $reserva->valor_a_pagar = ReservaService::calculateValorApagar($idQuarto, $dataEntrada, $dataSaida);

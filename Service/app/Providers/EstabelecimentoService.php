@@ -63,9 +63,14 @@ class EstabelecimentoService extends ServiceProvider
             //se a dataSaida é antes da data de entrada
                 return [
                     "status" => false,
-                    "mensagem" => "Erro: data de saída inserida é anterior a data de entrada" 
+                    "mensagem" => "Erro: data de saída inserida deve ser após a data de entrada" 
                 ];
-            }
+        }else if(new DateTime($dataSaida) == new DateTime($dataEntrada)){
+            return [
+                "status" => false,
+                "mensagem" => "Erro: data de saída deve ser pelo menos 1 dia após data de entrada" 
+            ];
+        }
 
         $estDisponiveis = [];
 
@@ -80,8 +85,7 @@ class EstabelecimentoService extends ServiceProvider
         }
         return [
             "status" => true,
-            "mensagem" => "Estabelecimentos disponíveis com check in em " . $dataEntrada . " e check out em " . $dataSaida,
-            "estabelecimentos" =>  $estDisponiveis
+            "obj" =>  $estDisponiveis
         ];
     }
     public static function verifyDisponibilidadeEstabelecimento($id_estabelecimento, $dataEntrada, $dataSaida){
@@ -108,6 +112,13 @@ class EstabelecimentoService extends ServiceProvider
 
     public static function getQuartosDisponiveis($idEstabelecimento, $dataEntrada, $dataSaida){
 
+        if(new DateTime($dataEntrada) >= new DateTime($dataSaida)){
+            return json_encode([
+                "status" => false,
+                "mensagem" => "Data de saída deve ser pelo menos 1 dias após data de entrada"
+            ]);
+        }
+
         $quartosDisponiveis = [];
 
         $quartos = QuartoService::getQuartosByIdEstabelecimento($idEstabelecimento);
@@ -115,10 +126,14 @@ class EstabelecimentoService extends ServiceProvider
             if(ReservaService::verifyDisponibilidade($quarto->id, $dataEntrada, $dataSaida)){
                 $quarto->tipo_de_quarto = TipoDeQuartoService::getTipoDeQuartoById($quarto->id_tipo_de_quarto);
                 unset($quarto->id_tipo_de_quarto);
+                unset($quarto->id_estabelecimento);
                 $quartosDisponiveis[count($quartosDisponiveis)] = $quarto;
             }
         }
-        return $quartosDisponiveis;
+        return json_encode([
+            "status" => true,
+            "obj" => $quartosDisponiveis
+        ]);
     }
 
     public static function convertRowForSending($row){
@@ -140,8 +155,8 @@ class EstabelecimentoService extends ServiceProvider
         $estabelecimento = [
             "id" => $row->est_id,
             "nome" => $row->est_nome,
-            "endereco" => $endereco,
-            "tipo_de_estabelecimento" => $tipo_de_estabelecimento
+            "endereco" => (object) $endereco,
+            "tipo_de_estabelecimento" => (object) $tipo_de_estabelecimento
         ];
 
         return $estabelecimento;

@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Providers\EstabelecimentoService;
-use App\Providers\ReservaService;
-use DateTime;
 use Illuminate\Http\Request;
 
 class EstabelecimentoController extends Controller
@@ -32,11 +30,8 @@ class EstabelecimentoController extends Controller
                 "mensagem" => "Dados incompletos"
             ]);
 
-        $availableRooms =  EstabelecimentoService::getQuartosDisponiveis($params["idEstabelecimento"], $params["dataEntrada"], $params["dataSaida"]);
-        return json_encode([
-            "status" => true,
-            "obj" => $availableRooms
-            ]);
+        $response =  EstabelecimentoService::getQuartosDisponiveis($params["idEstabelecimento"], $params["dataEntrada"], $params["dataSaida"]);
+        return $response;
     }
 
     public function getInfoEstabelecimento(Request $request){
@@ -51,9 +46,8 @@ class EstabelecimentoController extends Controller
 
             //se recebeu algum objeto, adiciona
             if(count($est) > 0){
-                $estabelecimento = $est[0];
+                $estabelecimento = (object) $est[0];
             }
-            
             return json_encode([
                 "status" => true,
                 "obj" => json_encode($estabelecimento)
@@ -61,7 +55,7 @@ class EstabelecimentoController extends Controller
         }
         return json_encode([
             "status" => false,
-            "mensagem" => "erro"
+            "mensagem" => "parametro idEstabelecimento necessário"
         ]);
     }
 
@@ -78,7 +72,7 @@ class EstabelecimentoController extends Controller
         }
         return json_encode([
             "status" => false,
-            "mensagem" => "erro"
+            "mensagem" => "parâmetro idsEstabelecimentos necessário"
         ]);
     }
 

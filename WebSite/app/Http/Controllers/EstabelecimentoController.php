@@ -24,7 +24,7 @@ class EstabelecimentoController extends Controller
         if($response["status"] == true){
             $estDisponiveis = [];
 
-            foreach($response["estabelecimentos"] as $estD){
+            foreach($response["obj"] as $estD){
                 $est = new Estabelecimento($estD["id"], $estD["nome"]);
                 $endObj = (object) $estD["endereco"];
                 $endereco = new Endereco($endObj->id, $endObj->rua, $endObj->numero,$endObj->bairro,$endObj->cidade,$endObj->estado);

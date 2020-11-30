@@ -22,12 +22,12 @@ class TipoDeEstabelecimentoDAO extends Model
     //-------------- INSERT --------------//
     public static function insert($tipoDeEstabelecimento){
         $dados = [
-            "nome" => $tipoDeEstabelecimento->getNome(),
+            "nome" => $tipoDeEstabelecimento->nome,
             "created_at" => Carbon::now(),
             "updated_at" => null
         ];
-        if($tipoDeEstabelecimento->getId() > 0)
-            $dados["id"] = $tipoDeEstabelecimento->getId();
+        if($tipoDeEstabelecimento->id > 0)
+            $dados["id"] = $tipoDeEstabelecimento->id;
 
         return DB::table("tipo_de_estabelecimento")->insert($dados);
     }

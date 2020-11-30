@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
@@ -19,15 +18,14 @@ class TipoDeQuartoDAO extends Model
     //-------------- GET --------------//
 
     //-------------- INSERT --------------//
-    public static function insert(TipoDeQuarto $tipoDeQuarto){
+    public static function insert($tipoDeQuarto){
         $dados = [
-            'id'=> $tipoDeQuarto->getId(), 
-            "nome" => $tipoDeQuarto->getNome(), 
+            "nome" => $tipoDeQuarto->nome, 
             "created_at" => Carbon::now(), 
             "updated_at" => null
         ];
-        if($tipoDeQuarto->getId() > 0)
-            $dados["id"] = $tipoDeQuarto->getId();
+        if($tipoDeQuarto->id > 0)
+            $dados["id"] = $tipoDeQuarto->id;
 
         return DB::table("tipo_de_quarto")->insertGetId($dados);
     }

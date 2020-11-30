@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
@@ -20,14 +19,14 @@ class SituacaoDePagamentoDAO extends Model
     //-------------- GET --------------//
 
     //-------------- INSERT --------------//
-    public static function insert(SituacaoDePagamento $situacaoDePagamento){
+    public static function insert($situacaoDePagamento){
         $dados = [
-            "nome" => $situacaoDePagamento->getNome(),
+            "nome" => $situacaoDePagamento->nome,
             "created_at" => Carbon::now(),
             "updated_at" => null
         ];
-        if($situacaoDePagamento->getId() > 0)
-            $dados["id"] = $situacaoDePagamento->getId();
+        if($situacaoDePagamento->id > 0)
+            $dados["id"] = $situacaoDePagamento->id;
             
         return DB::table("situacao_de_pagamento")->insert($dados);
     }
@@ -41,19 +40,19 @@ class SituacaoDePagamentoDAO extends Model
     //-------------- INSERT --------------//
 
     //-------------- UPDATE --------------//
-    public static function update_(SituacaoDePagamento $situacaoDePagamento){
-        return DB::table("situacao_de_pagamento")->where("id", $situacaoDePagamento->getId())->update([
-            "nome" => $situacaoDePagamento->getNome(),
-            "updated_at" => Carbon::now()
-        ]);
-    }
-    public static function updateAll($situacoesDePagamento){
-        $results = [];
-        foreach($situacoesDePagamento as $situacao){
-            $results[count($results)] = SituacaoDePagamentoDAO::update_($situacao);
-        }
-        return $results;
-    }
+    // public static function update_($situacaoDePagamento){
+    //     return DB::table("situacao_de_pagamento")->where("id", $situacaoDePagamento->getId())->update([
+    //         "nome" => $situacaoDePagamento->getNome(),
+    //         "updated_at" => Carbon::now()
+    //     ]);
+    // }
+    // public static function updateAll($situacoesDePagamento){
+    //     $results = [];
+    //     foreach($situacoesDePagamento as $situacao){
+    //         $results[count($results)] = SituacaoDePagamentoDAO::update_($situacao);
+    //     }
+    //     return $results;
+    // }
     //-------------- UPDATE --------------//
 
     //-------------- ADAPTER --------------//

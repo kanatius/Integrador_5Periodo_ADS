@@ -2,9 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\TipoDeEstabelecimento;
 use App\Models\TipoDeEstabelecimentoDAO;
-use App\Models\Estabelecimento;
 
 use Illuminate\Support\ServiceProvider;
 use stdClass;

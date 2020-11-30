@@ -29,6 +29,6 @@ class InsertSituacaoDePagamento extends Migration
      */
     public function down()
     {
-        DB::table("situacao_de_pagamento")->where("id", "<=", 3)->delete();
+        DB::table("situacao_de_pagamento")->where("id", ">", 0)->delete();
     }
 }
